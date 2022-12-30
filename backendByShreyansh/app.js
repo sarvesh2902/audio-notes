@@ -9,6 +9,7 @@ const passport = require('passport');
 const {initializingPassport }=require('./handlers/passport.js');
 
 const videoToAudio = require('./routes/main.routes');
+const authRoute = require('./routes/auth.routes');
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.get("/", (req, res) => {
 })
 
 app.use('/', videoToAudio);
+app.use('/auth', authRoute);
 
 
 // done! we export it so we can start the site in start.js
