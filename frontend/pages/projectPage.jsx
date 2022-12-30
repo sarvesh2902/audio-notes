@@ -1,7 +1,9 @@
 import React from "react";
+import Layout from "../components/Layout";
 
 const projectPage = () => {
   return (
+    <Layout title="Project">
     <div className="h-screen flex items-center overflow-hidden">
       <div className="m-auto px-6 sm:px-0 sm:w-8/12 md:w-7/12 lg:w-6/12 xl:w-4/12">
         <div className="relative group w-full h-64 flex justify-center items-center">
@@ -35,6 +37,7 @@ const projectPage = () => {
         </div>
       </div>
     </div>
+    </Layout>
   );
 };
 
