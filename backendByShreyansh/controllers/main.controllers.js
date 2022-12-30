@@ -10,8 +10,9 @@ const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
 exports.convertVideoToAudio= async (req, res) => {
     if (req.file) {
         console.log(req.file.path);
-
-        const output = "public/audio/"+Date.now() + "-" + "convertedAudio.mp3"
+        const dirName = "public/audio/"
+        const fileName = Date.now() + "-" + "convertedAudio.mp3"
+        const output = dirName + fileName;
 
         exec(`ffmpeg -i ${req.file.path} ${output}`, async(error, stdout, stderr) => {
             if (error) {
@@ -21,18 +22,15 @@ exports.convertVideoToAudio= async (req, res) => {
                 console.log("File is converted");
                 const recordPresent = await AudioUrlRecordSchema.findOne({"email":req.body.email});
                 if(recordPresent){
-                  console.log(recordPresent);
-                  console.log(recordPresent.record);
-                  recordPresent.record.push(output);
-                  console.log(recordPresent.record);
+                  recordPresent.record.push(fileName);
                   const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate({"email":req.body.email},{"record": recordPresent.record,"updatedAt":Date.now()})
 
                   if(updateRecord){
 
                     res.status(200).json({
                       "type":"success",
-                      "url":output,
-                      "updatedRecord": updateRecord
+                      "url":fileName,
+                      "updatedRecord": recordPresent.record
                     })
 
                     fs.unlinkSync(req.file.path)
@@ -40,7 +38,7 @@ exports.convertVideoToAudio= async (req, res) => {
                 }else{
                   const newRecord = {
                     "email":req.body.email,
-                    "record":[output],
+                    "record":[fileName],
                     "updatedAt": Date.now()
                   }
 
@@ -49,8 +47,8 @@ exports.convertVideoToAudio= async (req, res) => {
                   if(newUrl){
                     res.status(200).json({
                       "type":"success",
-                      "url":output,
-                      "updatedRecord": newUrl
+                      "url":fileName,
+                      "updatedRecord": newUrl.record
                     })
 
                     fs.unlinkSync(req.file.path)
@@ -67,5 +65,7 @@ exports.convertVideoToAudio= async (req, res) => {
         })
     }
 }
+
+
 
 
