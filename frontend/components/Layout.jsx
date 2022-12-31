@@ -9,7 +9,7 @@ const Layout = ({ title, content, children }) => {
                 <meta name="description" content={content} />
                 <link
                     rel="icon"
-                    href="https://res.cloudinary.com/atharva7/image/upload/v1664640503/samples/plantifylogo_ez5l1p.png"
+                    href="https://res.cloudinary.com/sarveshp46/image/upload/v1672468990/Untitled_design_3_1_f0ueoc.png"
                 />
             </Head>
             <div className="">{children}</div>
