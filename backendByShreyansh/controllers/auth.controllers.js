@@ -9,7 +9,7 @@ const nodemailer = require('nodemailer')
 const cryptr = new Cryptr('myNameisAtlantis');
 
 exports.addUserData = async (req, res, next) => {
-  console.log(req.session.user)
+  // console.log(req.session.user)
     // if user already exists
     const user = await UserSchema.findOne({ email: req.body.email });
 
