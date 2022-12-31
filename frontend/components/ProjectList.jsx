@@ -5,7 +5,7 @@ const ProjectList = () => {
         <div>
             <div className="overflow-x-auto relative shadow-md sm:rounded-lg mx-20 my-3">
                 <table className="w-full text-sm text-left text-black dark:text-gray-400">
-                    <thead className="text-xs text-white dark:border-gray-400 uppercase bg-primary-600 dark:bg-gray-200 dark:text-black">
+                    <thead className="text-xs text-white dark:border-gray-400 uppercase bg-primary-200 dark:bg-gray-200 dark:text-black">
                         <tr>
                             <th scope="col" className="py-3 px-6">
                                 Project name

@@ -6,9 +6,7 @@ import Navbar from "../components/Navbar";
 const About = () => {
     return (
         <Layout title="About Us / AudioNotes">
-            <Navbar />
             <h1 className="text-center">About Us</h1>
-            <Footer />
         </Layout>
     );
 };

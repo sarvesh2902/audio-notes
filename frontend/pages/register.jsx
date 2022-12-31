@@ -32,7 +32,6 @@ const register = () => {
 
     return (
         <Layout>
-            <Navbar />
             <div className="flex flex-col items-center px-6  mx-auto md:h-screen lg:py-10 bg-gray-50">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -149,8 +148,6 @@ const register = () => {
                     </div>
                 </div>
             </div>
-
-            <Footer />
         </Layout>
     );
 };
