@@ -6,10 +6,12 @@ import logo from "../images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
+import { useRouter } from "next/router";
 
 const login = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({
-        username: "",
+        email: "",
         password: "",
     });
 
@@ -28,21 +30,20 @@ const login = () => {
         await axios({
             method: "post",
             data: {
-                username: formData.username,
+                email: formData.email,
                 password: formData.password,
             },
             withCredentials: true,
-            url: "http://localhost:8000/login",
+            url: "http://localhost:8787/auth/login",
         })
             .then(function (res) {
                 console.log(res);
-                if (res.data === "Successfully Authenticated") {
-                    // navigate("/dashboard");
-                    console.log("success");
-                } else if (res.data === "No User Exists") {
-                    // navigate("/register");
-                    console.log("not found");
-                }
+                const userData = {
+                    email: res.data.msg.email,
+                    name: res.data.msg.name,
+                };
+                localStorage.setItem("userData", JSON.stringify(userData));
+                router.push("/dashboard");
             })
             .catch(function (error) {
                 console.log(error);
@@ -79,16 +80,16 @@ const login = () => {
                                 htmlFor="username"
                                 className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
                             >
-                                Your username
+                                Your email
                             </label>
                             <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                value={formData.username}
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={formData.email}
                                 onChange={handleChange}
                                 className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                                placeholder="Username"
+                                placeholder="Email"
                                 required
                             />
                         </div>

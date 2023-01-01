@@ -41,11 +41,6 @@ const projectPage = () => {
         //     .catch(function (error) {
         //         console.log(error);
         //     });
-
-        // setFormData({
-        //     Username: "",
-        //     Password: "",
-        // });
     };
 
     return (

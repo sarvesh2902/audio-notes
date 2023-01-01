@@ -5,13 +5,17 @@ import Layout from "../components/Layout";
 import logo from "../images/logo.png";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
+import { useRouter } from "next/router";
 
 const register = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({
-        Name: "",
-        Email: "",
-        Password: "",
+        name: "",
+        email: "",
+        password: "",
     });
+
     const handleChange = (event) => {
         setFormData((prevState) => {
             return {
@@ -21,17 +25,37 @@ const register = () => {
         });
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        setFormData({
-            Name: "",
-            Email: "",
-            Password: "",
-        });
+        console.log(formData);
+
+        await axios({
+            method: "post",
+            data: {
+                name: formData.name,
+                password: formData.password,
+                email: formData.email,
+            },
+            withCredentials: true,
+            url: "http://localhost:8787/auth/register",
+        })
+            .then(function (res) {
+                alert("Successfully registered!! Please login to continue");
+                router.push("/login");
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        // setFormData({
+        //     name: "",
+        //     email: "",
+        //     password: "",
+        // });
     };
 
     return (
-        <Layout>
+        <Layout title="Register / AudioNotes">
             <div className="flex flex-col items-center px-6  mx-auto md:h-screen lg:py-10 bg-gray-50">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -61,9 +85,9 @@ const register = () => {
                                 </label>
                                 <input
                                     type="text"
-                                    id="Name"
-                                    name="Name"
-                                    value={formData.Name}
+                                    id="name"
+                                    name="name"
+                                    value={formData.name}
                                     onChange={handleChange}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Name"
@@ -79,9 +103,9 @@ const register = () => {
                                 </label>
                                 <input
                                     type="email"
-                                    id="Email"
-                                    name="Email"
-                                    value={formData.Email}
+                                    id="email"
+                                    name="email"
+                                    value={formData.email}
                                     onChange={handleChange}
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     placeholder="Email"
@@ -97,9 +121,9 @@ const register = () => {
                                 </label>
                                 <input
                                     type="password"
-                                    id="Password"
-                                    name="Password"
-                                    value={formData.Password}
+                                    id="password"
+                                    name="password"
+                                    value={formData.password}
                                     onChange={handleChange}
                                     placeholder="Password"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
