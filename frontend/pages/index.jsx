@@ -2,6 +2,8 @@ import Footer from "../components/Footer";
 import Layout from "../components/Layout";
 import Navbar from "../components/Navbar";
 import share from "../images/share.jpg";
+
+
 const Home = () => {
     return <Layout title="Home / AudioNotes">
         <div class="text-gray-700 bg-white">
