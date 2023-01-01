@@ -1,8 +1,24 @@
 import Image from "next/image";
 import logo from "../images/logo.png";
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
+    const router = useRouter();
+    const [data, setData] = useState("");
+    useEffect(() => {
+        setData(JSON.parse(localStorage.getItem("userData")));
+    }, []);
+
+    const handleLogout = () => {
+        if (data) {
+            localStorage.removeItem("userData");
+            router.push("/login");
+        } else {
+            router.push("/login");
+        }
+    };
     return (
         <div>
             <nav className="bg-primary-100 border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
@@ -88,14 +104,14 @@ const Navbar = () => {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/login">
+                                <button onClick={handleLogout}>
                                     <div
                                         className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent text-lg font-semibold md:text-black md:p-0 dark:text-white md:hover:text-primary-300 transition-all"
                                         aria-current="page"
                                     >
-                                        Login
+                                        {data ? "Logout" : "Login"}
                                     </div>
-                                </Link>
+                                </button>
                             </li>
                         </ul>
                     </div>
