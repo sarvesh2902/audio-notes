@@ -12,6 +12,7 @@ const videoToAudio = require('./routes/main.routes');
 const authRoute = require('./routes/auth.routes');
 const dashboardRoute = require('./routes/dashboard.routes');
 const audioPlayerRoute = require('./routes/audioPlayer.routes');
+const youtube2mp3Route = require('./routes/youtube2mp3.routes')
 
 const app = express();
 
@@ -67,6 +68,7 @@ app.use('/auth', authRoute);
 app.use('/dashboard', dashboardRoute);
 app.use('/audio', express.static(path.join(__dirname, 'public/audio')));
 app.use('/audioplayer', audioPlayerRoute);
+app.use('/youtube', youtube2mp3Route);
 
 
 // done! we export it so we can start the site in start.js

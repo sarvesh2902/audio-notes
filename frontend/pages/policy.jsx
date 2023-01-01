@@ -6,9 +6,7 @@ import Navbar from "../components/Navbar";
 const PrivacyPolicy = () => {
     return (
         <Layout title="Privacy Policy / AudioNotes">
-            <Navbar />
             <h1 className="text-center">Privacy Policy</h1>
-            <Footer />
         </Layout>
     );
 };

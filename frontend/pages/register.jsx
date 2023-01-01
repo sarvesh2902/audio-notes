@@ -32,7 +32,6 @@ const register = () => {
 
     return (
         <Layout>
-            <Navbar />
             <div className="flex flex-col items-center px-6  mx-auto md:h-screen lg:py-10 bg-gray-50">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -50,7 +49,8 @@ const register = () => {
                         <form
                             onSubmit={handleSubmit}
                             className="space-y-4 md:space-y-6"
-                            action="#"
+                            action="localhost:8787/auth/register"
+                            method="post"
                         >
                             <div>
                                 <label
@@ -133,7 +133,7 @@ const register = () => {
                             </div>
                             <button
                                 type="submit"
-                                className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                className="w-full text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                             >
                                 Create an account
                             </button>
@@ -149,8 +149,6 @@ const register = () => {
                     </div>
                 </div>
             </div>
-
-            <Footer />
         </Layout>
     );
 };

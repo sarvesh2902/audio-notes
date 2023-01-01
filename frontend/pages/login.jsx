@@ -56,8 +56,7 @@ const login = () => {
 
     return (
         <Layout title="Login / AudioNotes">
-            <Navbar />
-            <div className="flex justify-center py-10 bg-gray-50">
+            <div className="flex justify-center pt-10 bg-gray-50">
                 <div className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700 w-full">
                     <form
                         className="space-y-6"
@@ -133,21 +132,21 @@ const login = () => {
                             </div>
 
                             <Link href="/forgot-password">
-                                <div className="text-sm text-blue-700 hover:underline ml-auto dark:text-blue-500">
+                                <div className="text-sm text-blue-700 hover:underline transition-all ml-auto dark:text-blue-500">
                                     Forgot Password?
                                 </div>
                             </Link>
                         </div>
                         <button
                             type="submit"
-                            className="w-full text-white bg-primary-200 hover:bg-primary-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            className="w-full text-white bg-primary-200 hover:bg-primary-300 transition-all focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                         >
                             Login to your account
                         </button>
                         <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
                             Not registered?{" "}
                             <Link href="/register">
-                                <span className="text-blue-700 hover:underline dark:text-blue-500">
+                                <span className="text-blue-700 hover:underline transition-all dark:text-blue-500">
                                     Create an account
                                 </span>
                             </Link>
@@ -155,7 +154,6 @@ const login = () => {
                     </form>
                 </div>
             </div>
-            <Footer />
         </Layout>
     );
 };

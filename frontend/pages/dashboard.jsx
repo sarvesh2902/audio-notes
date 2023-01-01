@@ -9,10 +9,8 @@ const dashboard = () => {
     return (
         <div>
             <Layout title="Dashboard">
-                <Navbar />
                 <CreateProjBtn />
                 <ProjectList />
-                <Footer />
             </Layout>
         </div>
     );
