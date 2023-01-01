@@ -3,7 +3,7 @@ import { Accordion, Button } from "flowbite-react";
 
 const AudioAccordion = () => {
   return (
-    <div>
+    <div className="mx-20 my-5">
       <Accordion alwaysOpen={true}>
         <Accordion.Panel>
           <Accordion.Title className="bg-white">What is Flowbite?</Accordion.Title>
@@ -17,6 +17,8 @@ const AudioAccordion = () => {
                 </p>
               </div>
               <div className="flex flex-row space-x-6">
+              <p className="my-3 text-blue-600 cursor-pointer">18:34</p>
+
               <div >
                 <Button outline={true} gradientDuoTone="cyanToBlue">
                   <svg
@@ -69,6 +71,7 @@ const AudioAccordion = () => {
                 </p>
               </div>
               <div className="flex flex-row space-x-6">
+              <p className="my-3 text-blue-600 cursor-pointer">18:34</p>
               <div >
                 <Button outline={true} gradientDuoTone="cyanToBlue">
                   <svg
@@ -87,6 +90,7 @@ const AudioAccordion = () => {
                   </svg>
                 </Button>
               </div>
+              
               <div>
                 <Button outline={true} gradientDuoTone="cyanToBlue">
                   <svg
@@ -121,6 +125,7 @@ const AudioAccordion = () => {
                 </p>
               </div>
               <div className="flex flex-row space-x-6">
+              <p className="my-3 text-blue-600 cursor-pointer">18:34</p>
               <div >
                 <Button outline={true} gradientDuoTone="cyanToBlue">
                   <svg
