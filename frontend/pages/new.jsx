@@ -1,11 +1,21 @@
 import React from "react";
 import Layout from "../components/Layout";
 import { useState } from "react";
+import axios from "axios";
 
 const projectPage = () => {
+    const [file,setfile] = useState(null)
     const [formData, setFormData] = useState({
         projectName: "",
     });
+
+    const fileUpload = (event) => {
+        if (event.target.files && event.target.files[0]) {
+          const i = event.target.files[0];
+
+          setfile(i);
+        }
+      };
 
     const handleChange = (event) => {
         setFormData((prevState) => {
@@ -19,28 +29,33 @@ const projectPage = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         console.log(formData);
-        // await axios({
-        //     method: "post",
-        //     data: {
-        //         username: formData.username,
-        //         password: formData.password,
-        //     },
-        //     withCredentials: true,
-        //     url: "http://localhost:8000/login",
-        // })
-        //     .then(function (res) {
-        //         console.log(res);
-        //         if (res.data === "Successfully Authenticated") {
-        //             // navigate("/dashboard");
-        //             console.log("success");
-        //         } else if (res.data === "No User Exists") {
-        //             // navigate("/register");
-        //             console.log("not found");
-        //         }
-        //     })
-        //     .catch(function (error) {
-        //         console.log(error);
-        //     });
+        const formData2 = new FormData();
+        formData2.append("projectName",formData.projectName);
+        formData2.append("file",file);
+        formData2.append("email",JSON.parse(localStorage.getItem("userData")).email);
+        await axios({
+            method: "post",
+            data: formData2,
+            withCredentials: true,
+            headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            url: "http://localhost:8787/convert_video",
+        })
+            .then(function (res) {
+                console.log(res);
+                return;
+                if (res.data === "Successfully Authenticated") {
+                    // navigate("/dashboard");
+                    console.log("success");
+                } else if (res.data === "No User Exists") {
+                    // navigate("/register");
+                    console.log("not found");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     };
 
     return (
@@ -71,11 +86,12 @@ const projectPage = () => {
                         <div className="relative group w-full h-64 flex justify-center items-center">
                             <div className="absolute inset-0 w-full h-full rounded-xl bg-white bg-opacity-80 shadow-2xl backdrop-blur-xl group-hover:bg-opacity-70 group-hover:scale-110 transition duration-300"></div>
                             <input
-                                accept=".jpg, .jpeg .png, .svg, .webp"
+                                accept=".mp4"
                                 className="relative z-10 opacity-0 h-full w-full cursor-pointer"
                                 type="file"
-                                name="bgfile"
-                                id="bgfile"
+                                name="file"
+                                id="file"
+                                onChange={fileUpload}
                                 required
                             />
                             <div className="absolute top-0 right-0 bottom-0 left-0 w-full h-full m-auo flex items-center justify-center">
@@ -88,7 +104,7 @@ const projectPage = () => {
                                     <p className="text-gray-700 text-lg">
                                         Drag and drop a file or{" "}
                                         <label
-                                            htmlFor="bgfile"
+                                            htmlFor="file"
                                             title="Upload a file"
                                             className="relative z-20 cursor-pointer text-blue-500 hover:text-blue-600 block"
                                         >
