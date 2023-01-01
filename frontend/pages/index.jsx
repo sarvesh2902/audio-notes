@@ -25,7 +25,7 @@ const Home = () => {
                         </button>
                     </div>
                 </div>
-                <section class="container mx-auto px-6 py-10">
+                <section class="container mx-auto px-6">
                     <h2 class="text-4xl font-bold text-center text-gray-800 mb-10">
                         Our Services
                     </h2>
