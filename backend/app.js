@@ -1,62 +1,85 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-var indexRouter = require("./routes/users");
-const mongooseConnectDB = require("./mongoose.db.config");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const express = require("express");
 const session = require("express-session");
+const mongoose = require("mongoose");
+const MongoStore = require("connect-mongo")(session);
+const path = require("path");
+const flash = require("connect-flash");
+const bodyParser = require("body-parser");
 const passport = require("passport");
-const passportLocal = require("passport-local").Strategy;
-const User = require("./models/user");
-const bcrypt = require("bcryptjs");
+const { initializingPassport } = require("./handlers/passport.js");
+const cors = require("cors");
+const videoToAudio = require("./routes/main.routes");
+const authRoute = require("./routes/auth.routes");
+const dashboardRoute = require("./routes/dashboard.routes");
+const audioPlayerRoute = require("./routes/audioPlayer.routes");
+const youtube2mp3Route = require("./routes/youtube2mp3.routes");
 
-var app = express();
+const app = express();
 
-mongooseConnectDB(
-    "mongodb+srv://sarvesh2902:Hi5JUL8XES1YAmOU@cluster0.wfnik3x.mongodb.net/audio-notes?retryWrites=true&w=majority"
+app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+    bodyParser.json({
+        limit: "200mb",
+    })
 );
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+    bodyParser.urlencoded({
+        limit: "200mb",
+        extended: true,
+        parameterLimit: 100000,
+    })
+);
+
+app.use(
+    session({
+        secret: process.env.SECRET,
+        key: process.env.KEY,
+        resave: false,
+        saveUninitialized: false,
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+        }),
+    })
+);
+
 app.use(
     cors({
         origin: "http://localhost:3000",
         credentials: true,
     })
 );
-app.use(
-    session({
-        secret: "secretcode",
-        resave: true,
-        saveUninitialized: true,
-    })
-);
-app.use(logger("dev"));
-app.use(cookieParser("secretcode"));
-app.use(express.static(path.join(__dirname, "public")));
+
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.session = req.session;
+    //   res.locals.h = helpers;
+    res.locals.flashes = req.flash();
+    res.locals.user = req.user || null;
+    res.locals.currentPath = req.path;
+    next();
+});
+
+// Passport configuration
+initializingPassport(passport);
+
+// Passport JS is what we use to handle our logins
 app.use(passport.initialize());
 app.use(passport.session());
-require("./passportConfig")(passport);
 
-app.use("/", indexRouter);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-    next(createError(404));
+// handle our api routes!
+app.get("/", (req, res) => {
+    res.sendFile("/public/index.html");
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get("env") === "development" ? err : {};
+app.use("/", videoToAudio);
+app.use("/auth", authRoute);
+app.use("/dashboard", dashboardRoute);
+app.use("/audio", express.static(path.join(__dirname, "public/audio")));
+app.use("/audioplayer", audioPlayerRoute);
+app.use("/youtube", youtube2mp3Route);
 
-    // render the error page
-    res.status(err.status || 500);
-    res.send(err);
-});
-
+// done! we export it so we can start the site in start.js
 module.exports = app;
