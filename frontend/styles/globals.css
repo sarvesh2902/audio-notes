@@ -1,3 +1,22 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+:root {
+    --toolbar-theme: {
+      background-color: rebeccapurple;
+      color: white;
+      border: 1px solid green;
+    };
+  }
+  
+  * {
+    font-family: 'Source Sans Pro', sans-serif;
+  }
+  
+  .hero {
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  }
+  
+  .call-to-action {
+    background-color: #667eea;
+  }
