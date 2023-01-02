@@ -69,6 +69,17 @@ const project = () => {
         copy.splice(index, 1);
         setFormData(copy);
     };
+
+    // edit function 
+    const handleEdit = (index,editData)=>{
+        // console.log(index);
+        let copy = formData.slice();
+        copy[index].name = editData.name;
+        copy[index].comment = editData.comment;
+        // console.log(copy[index]);
+        setFormData(copy);
+
+    }
     return (
         <Layout title="Project / Audio Notes">
             <h1 className="text-black flex font-bold justify-center text-2xl mt-5">
@@ -119,6 +130,7 @@ const project = () => {
                 formData={formData}
                 handlePlay={handlePlay}
                 handleDelete={handleDelete}
+                handleEdit = {handleEdit}
             />
         </Layout>
     );
