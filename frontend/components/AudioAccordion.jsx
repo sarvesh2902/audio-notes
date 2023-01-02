@@ -1,36 +1,12 @@
 import React from "react";
 import { Accordion, Button } from "flowbite-react";
-import { useState } from "react";
 
-const AudioAccordion = () => {
-    const [formData, setFormData] = useState([
-        {
-            name: "fasf",
-            comment: "fsafa",
-            timestamp: "10:10",
-        },
-        {
-            name: "fasf",
-            comment: "fsda",
-            timestamp: "10:10",
-        },
-        {
-            name: "gfgery",
-            comment: "hgfhfdh",
-            timestamp: "10:10",
-        },
-        {
-            name: "twetr",
-            comment: "jyjfd",
-            timestamp: "10:10",
-        },
-    ]);
-
+const AudioAccordion = ({ formData, handlePlay, handleDelete }) => {
     const accordions = formData.map((item, index) => {
         return (
-            <Accordion.Panel>
+            <Accordion.Panel key={item.name}>
                 <Accordion.Title className="bg-white">
-                    {item.name}
+                    <span className="font-bold text-lg">{item.name}</span>
                 </Accordion.Title>
                 <Accordion.Content>
                     <div className="flex flex-row justify-between">
@@ -40,8 +16,30 @@ const AudioAccordion = () => {
                             </p>
                         </div>
                         <div className="flex flex-row space-x-6">
-                            <p className="my-3 text-blue-600 cursor-pointer">
-                                {item.timestamp}
+                            <p className=" text-blue-600 cursor-pointer">
+                                <Button
+                                    outline={true}
+                                    gradientDuoTone="cyanToBlue"
+                                    onClick={() => {
+                                        handlePlay(item.timestamp);
+                                    }}
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-6 h-6"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.348a1.125 1.125 0 010 1.971l-11.54 6.347a1.125 1.125 0 01-1.667-.985V5.653z"
+                                        />
+                                    </svg>
+                                    {item.timestamp}
+                                </Button>
                             </p>
 
                             <div>
@@ -76,6 +74,9 @@ const AudioAccordion = () => {
                                 <Button
                                     outline={true}
                                     gradientDuoTone="cyanToBlue"
+                                    onClick={() => {
+                                        handleDelete(index);
+                                    }}
                                 >
                                     <svg
                                         xmlns="http://www.w3.org/2000/svg"
