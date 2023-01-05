@@ -5,6 +5,7 @@ import AudioAccordion from "../components/AudioAccordion";
 import Layout from "../components/Layout";
 import { Button } from "flowbite-react";
 import { useState, useRef } from "react";
+import ShareAudioHandles from "../components/ShareAudioHandles";
 // import 'tw-elements'
 // import "./project.scss"
 
@@ -132,6 +133,7 @@ const project = () => {
         handleDelete={handleDelete}
                 handleEdit = {handleEdit}
       />
+      <ShareAudioHandles/>
     </Layout>
   );
 };
