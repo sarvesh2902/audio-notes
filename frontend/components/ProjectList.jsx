@@ -2,22 +2,20 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-
 const ProjectList = () => {
-
-  const [records,setRecords] = useState([
+  const [records, setRecords] = useState([
     {
       projectName: "project1",
-      url:"1673086140643-convertedAudio.mp3",
+      url: "1673086140643-convertedAudio.mp3",
       duration: "54 mins",
       dataAdded: "24/02/2022",
       dateModified: "30/12/2022",
-    }
-  ])
+    },
+  ]);
 
   useEffect(() => {
     const userEmail = JSON.parse(localStorage.getItem("userData")).email;
-     axios({
+    axios({
       method: "post",
       data: {
         email: userEmail,
@@ -27,7 +25,7 @@ const ProjectList = () => {
     })
       .then(function (res) {
         console.log(res.data.message);
-        setRecords(res.data.message)
+        // setRecords(res.data.message);
         return;
         router.push("/dashboard");
       })
@@ -36,10 +34,12 @@ const ProjectList = () => {
       });
   }, []);
 
-
   const tableRows = records.map((item) => {
     return (
-      <tr className="bg-white border-b dark:bg-gray-200 text-black dark:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-300">
+      <tr
+        key={item.projectName}
+        className="bg-white border-b dark:bg-gray-200 text-black dark:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-300"
+      >
         <th
           scope="row"
           className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-black"
