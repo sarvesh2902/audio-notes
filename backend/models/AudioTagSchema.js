@@ -8,6 +8,9 @@ const AudioTagSchema = new Schema({
         required: true,
         unique: true
     },
+    projectName:{
+        type:String
+    },
     tags:[{
       type: Object
     }],
