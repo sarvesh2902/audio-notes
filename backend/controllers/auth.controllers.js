@@ -56,6 +56,7 @@ exports.addUserData = async (req, res, next) => {
   }
 
 exports.loginUserData = async(req, res,next) => {
+  console.log(req.body.email)
   const data = await UserSchema.findOne({"email":req.body.email});
 
   if(data){
