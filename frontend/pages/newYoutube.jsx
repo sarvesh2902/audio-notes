@@ -1,26 +1,24 @@
 import React from "react";
 import Layout from "../components/Layout";
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/router";
 import ReactLoading from "react-loading";
+import axios from "axios";
+import { useEffect } from "react";
 
-const projectPage = () => {
+const newYoutube = () => {
+  const [userData, setUserData] = useState({
+    email: "",
+    name: "",
+  });
+  useEffect(() => {
+    setUserData(JSON.parse(localStorage.getItem("userData")));
+  }, []);
   const router = useRouter();
-  const [file, setfile] = useState(null);
   const [formData, setFormData] = useState({
+    videoId: "",
     projectName: "",
   });
-
-  const fileUpload = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      const i = event.target.files[0];
-
-      setfile(i);
-    }
-  };
-
-  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (event) => {
     setFormData((prevState) => {
@@ -33,23 +31,17 @@ const projectPage = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setIsLoading(true);
     console.log(formData);
-    const formData2 = new FormData();
-    formData2.append("projectName", formData.projectName);
-    formData2.append("file", file);
-    formData2.append(
-      "email",
-      JSON.parse(localStorage.getItem("userData")).email
-    );
+    setIsLoading(true);
     await axios({
       method: "post",
-      data: formData2,
-      withCredentials: true,
-      headers: {
-        "Content-Type": "multipart/form-data",
+      data: {
+        videoId: formData.videoId,
+        projectName: formData.projectName,
+        email: userData.email,
       },
-      url: "http://localhost:8787/convert_video",
+      withCredentials: true,
+      url: "http://localhost:8787/youtube/convert-mp3",
     })
       .then(function (res) {
         console.log(res);
@@ -57,7 +49,7 @@ const projectPage = () => {
           router.push(`/${formData.projectName}`);
           console.log("success");
           setIsLoading(false);
-        } else if (res.data === "No User Exists") {
+        } else {
           console.log("not found");
         }
       })
@@ -66,9 +58,11 @@ const projectPage = () => {
       });
   };
 
-  const handleYoutubeLink = (req, res) => {
-    router.push("/newYoutube");
+  const handleUploadVideoClick = (req, res) => {
+    router.push("/new");
   };
+
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <Layout title="Project / AudioNotes">
@@ -93,51 +87,25 @@ const projectPage = () => {
             />
           </div>
         </div>
-        <p className="text-center text-2xl font-bold mt-10">Upload Video</p>
-        {/* <div className="flex items-center overflow-hidden h-96">
-          <div className="m-auto px-6 sm:px-0 sm:w-8/12 md:w-7/12 lg:w-6/12 xl:w-4/12">
-            <div className="relative group w-full h-64 flex justify-center items-center">
-              <div className="absolute inset-0 w-full h-full rounded-xl bg-white bg-opacity-80 shadow-2xl backdrop-blur-xl group-hover:bg-opacity-70 group-hover:scale-110 transition duration-300"></div>
-              <input
-                accept=".mp4"
-                className="relative z-10 opacity-0 h-full w-full cursor-pointer"
-                type="file"
-                name="file"
-                id="file"
-                onChange={fileUpload}
-                // required
-              />
-              <div className="absolute top-0 right-0 bottom-0 left-0 w-full h-full m-auo flex items-center justify-center">
-                <div className="space-y-6 text-center">
-                  <img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXMfnFzfURm7u65cptRathlu6PJj5Yx9hkxw&usqp=CAU"
-                    className="sm:w-40 w-32 m-auto"
-                    alt="illustration"
-                  />
-                  <p className="text-gray-700 text-lg">
-                    Drag and drop a file or{" "}
-                    <label
-                      htmlFor="file"
-                      title="Upload a file"
-                      className="relative z-20 cursor-pointer text-blue-500 hover:text-blue-600 block"
-                    >
-                      Upload a file
-                    </label>{" "}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-        <div className="flex justify-center my-10">
+        <p className="text-center text-2xl font-bold mt-10 mb-5">
+          Use YouTube Video
+        </p>
+        <div className="flex justify-center mb-10">
           <div className="w-96">
+            <label
+              htmlFor="videoId"
+              className="font-bold text-lg text-gray-900 block mb-2 dark:text-gray-300"
+            >
+              Enter YouTube Video ID:
+            </label>
             <input
-              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              accept=".mp4"
-              type="file"
-              name="file"
-              id="file"
-              onChange={fileUpload}
+              type="text"
+              id="videoId"
+              name="videoId"
+              value={formData.videoId}
+              onChange={handleChange}
+              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-lg rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="Video ID"
               required
             />
           </div>
@@ -170,11 +138,11 @@ const projectPage = () => {
 
         <div className="flex justify-center mt-10">
           <button
-            onClick={handleYoutubeLink}
+            onClick={handleUploadVideoClick}
             type="button"
             className="w-96 text-white bg-primary-200 hover:bg-primary-300 transition-all focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
-            Use YouTube Video
+            Upload Video
           </button>
         </div>
 
@@ -203,4 +171,4 @@ const projectPage = () => {
   );
 };
 
-export default projectPage;
+export default newYoutube;

@@ -31,39 +31,39 @@ const About = () => {
       linkedin: "https://www.linkedin.com/in/shreyansh-singh-40b4a422b/",
       instagram: "https://www.instagram.com/shreyansh0322/",
     },
-    // {
-    //   name: "Hrishikesh Kumbhar",
-    //   img: "https://avatars.githubusercontent.com/u/65307083?s=400&u=237f659d05e15248aee91189818084c78f6f3da0&v=4",
-    //   bio: "I am a full-stack developer with a strong background in the MERN stack . I have a passion for building intuitive and scalable web applications that deliver a seamless user experience.I am also an AI and machine learning enthusiast with a passion for using data-driven approaches to solve real-world problems. I have a strong background in mathematics and computer science, and have experience working with a variety of machine learning algorithms and tools.I am a strong believer in the power of teamwork and am always looking for opportunities to collaborate with others and learn new technologies.",
-    //   website: "",
-    //   twitter: "https://twitter.com/Hrishi_156",
-    //   github: "https://github.com/Hrishikesh156",
-    //   linkedin: "https://www.linkedin.com/in/hrishikesh-kumbhar-a86319206/",
-    //   instagram: "https://www.instagram.com/hrishikesh_kumbhar15/",
-    // },
+    {
+      name: "Hrishikesh Kumbhar",
+      img: "https://avatars.githubusercontent.com/u/65307083?s=400&u=237f659d05e15248aee91189818084c78f6f3da0&v=4",
+      bio: "I am a full-stack developer with a strong background in the MERN stack . I have a passion for building intuitive and scalable web applications that deliver a seamless user experience.I am also an AI and machine learning enthusiast with a passion for using data-driven approaches to solve real-world problems.",
+      website: "",
+      twitter: "https://twitter.com/Hrishi_156",
+      github: "https://github.com/Hrishikesh156",
+      linkedin: "https://www.linkedin.com/in/hrishikesh-kumbhar-a86319206/",
+      instagram: "https://www.instagram.com/hrishikesh_kumbhar15/",
+    },
   ];
 
   const cards = teamData.map((member) => {
     return (
-      <div class="max-w-sm rounded overflow-hidden shadow-lg mx-2 mb-10">
+      <div className="w-80 rounded overflow-hidden shadow-lg mx-2 mb-10">
         <img
-          class="w-full h-96"
+          className="w-80 h-80"
           src={member.img}
           alt="Sunset in the mountains"
         />
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">{member.name}</div>
-          <p class="text-gray-700 text-base">{member.bio}</p>
+        <div className="px-6 py-4">
+          <div className="font-bold text-xl mb-2">{member.name}</div>
+          <p className="text-gray-700 text-base">{member.bio}</p>
         </div>
-        <div class="px-12 pb-5 flex justify-around">
+        <div className="px-12 pb-5 flex justify-around">
           {/* <a
             target="_blank"
             href={member.website}
-            class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
           >
             {member.website}
           </a> */}
-          <a target="_blank" href={member.twitter} class="twitter">
+          <a target="_blank" href={member.twitter} className="twitter">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
@@ -75,7 +75,7 @@ const About = () => {
               <path d="M28,6.937c-0.957,0.425-1.985,0.711-3.064,0.84c1.102-0.66,1.947-1.705,2.345-2.951c-1.03,0.611-2.172,1.055-3.388,1.295 c-0.973-1.037-2.359-1.685-3.893-1.685c-2.946,0-5.334,2.389-5.334,5.334c0,0.418,0.048,0.826,0.138,1.215 c-4.433-0.222-8.363-2.346-10.995-5.574C3.351,6.199,3.088,7.115,3.088,8.094c0,1.85,0.941,3.483,2.372,4.439 c-0.874-0.028-1.697-0.268-2.416-0.667c0,0.023,0,0.044,0,0.067c0,2.585,1.838,4.741,4.279,5.23 c-0.447,0.122-0.919,0.187-1.406,0.187c-0.343,0-0.678-0.034-1.003-0.095c0.679,2.119,2.649,3.662,4.983,3.705 c-1.825,1.431-4.125,2.284-6.625,2.284c-0.43,0-0.855-0.025-1.273-0.075c2.361,1.513,5.164,2.396,8.177,2.396 c9.812,0,15.176-8.128,15.176-15.177c0-0.231-0.005-0.461-0.015-0.69C26.38,8.945,27.285,8.006,28,6.937z"></path>
             </svg>
           </a>
-          <a target="_blank" href={member.github} class="github">
+          <a target="_blank" href={member.github} className="github">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
@@ -87,7 +87,7 @@ const About = () => {
               <path d="M15,3C8.373,3,3,8.373,3,15c0,5.623,3.872,10.328,9.092,11.63C12.036,26.468,12,26.28,12,26.047v-2.051 c-0.487,0-1.303,0-1.508,0c-0.821,0-1.551-0.353-1.905-1.009c-0.393-0.729-0.461-1.844-1.435-2.526 c-0.289-0.227-0.069-0.486,0.264-0.451c0.615,0.174,1.125,0.596,1.605,1.222c0.478,0.627,0.703,0.769,1.596,0.769 c0.433,0,1.081-0.025,1.691-0.121c0.328-0.833,0.895-1.6,1.588-1.962c-3.996-0.411-5.903-2.399-5.903-5.098 c0-1.162,0.495-2.286,1.336-3.233C9.053,10.647,8.706,8.73,9.435,8c1.798,0,2.885,1.166,3.146,1.481C13.477,9.174,14.461,9,15.495,9 c1.036,0,2.024,0.174,2.922,0.483C18.675,9.17,19.763,8,21.565,8c0.732,0.731,0.381,2.656,0.102,3.594 c0.836,0.945,1.328,2.066,1.328,3.226c0,2.697-1.904,4.684-5.894,5.097C18.199,20.49,19,22.1,19,23.313v2.734 c0,0.104-0.023,0.179-0.035,0.268C23.641,24.676,27,20.236,27,15C27,8.373,21.627,3,15,3z"></path>
             </svg>
           </a>
-          <a target="_blank" href={member.linkedin} class="linkedin">
+          <a target="_blank" href={member.linkedin} className="linkedin">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
@@ -99,7 +99,7 @@ const About = () => {
               <path d="M15,3C8.373,3,3,8.373,3,15c0,6.627,5.373,12,12,12s12-5.373,12-12C27,8.373,21.627,3,15,3z M10.496,8.403 c0.842,0,1.403,0.561,1.403,1.309c0,0.748-0.561,1.309-1.496,1.309C9.561,11.022,9,10.46,9,9.712C9,8.964,9.561,8.403,10.496,8.403z M12,20H9v-8h3V20z M22,20h-2.824v-4.372c0-1.209-0.753-1.488-1.035-1.488s-1.224,0.186-1.224,1.488c0,0.186,0,4.372,0,4.372H14v-8 h2.918v1.116C17.294,12.465,18.047,12,19.459,12C20.871,12,22,13.116,22,15.628V20z"></path>
             </svg>
           </a>
-          <a target="_blank" href={member.instagram} class="instagram">
+          <a target="_blank" href={member.instagram} className="instagram">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               x="0px"
@@ -112,7 +112,7 @@ const About = () => {
             </svg>
           </a>
           {member.website && (
-            <a target="_blank" href={member.website} class="">
+            <a target="_blank" href={member.website} className="">
               <img
                 src="https://img.icons8.com/ios/50/null/domain--v1.png"
                 width={28}
@@ -135,11 +135,11 @@ const About = () => {
             </div>
           </div>
         </div>
-        <section className="container mx-auto px-6">
+        <section className="px-6">
           <h2 className="text-4xl font-bold text-center text-gray-800 mb-10">
             Our Team
           </h2>
-          <div className="flex">{cards}</div>
+          <div className="flex flex-wrap justify-evenly">{cards}</div>
         </section>
       </div>
     </Layout>
