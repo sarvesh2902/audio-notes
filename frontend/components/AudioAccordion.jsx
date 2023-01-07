@@ -1,36 +1,32 @@
 import React from "react";
-import { Accordion, Button,Modal } from "flowbite-react";
+import { Accordion, Button, Modal } from "flowbite-react";
 import { useState } from "react";
 
 const AudioAccordion = ({ formData, handlePlay, handleDelete, handleEdit }) => {
-    // function to set edit index since direct indexing doesnt work in the modal, gives the last index of the array so setting it here.
-    const editText = (index)=>{
+  // function to set edit index since direct indexing doesnt work in the modal, gives the last index of the array so setting it here.
+  const editText = (index) => {
+    setEditIndex(index);
+    setEditData(formData[index]);
+    setModalState(true);
+  };
+  // close button function of the model
+  const closeModal = () => {
+    setModalState(false);
+  };
 
-        setEditIndex(index);
-        setEditData(formData[index])
-        setModalState(true);
-    }
-    // close button function of the model
-    const closeModal = ()=>{
-        setModalState(false);
-    }
-
-    // sets modal input data  
-    const handleChange = (event)=>{
-        setEditData((prevState) => {
-            return {
-                ...prevState,
-                [event.target.name]: event.target.value,
-            };
-        });
-
-    }
-    const [modalState,setModalState] = useState(false);
-    const [editIndex,setEditIndex] = useState(0);
-    const [editData, setEditData] = useState([])
+  // sets modal input data
+  const handleChange = (event) => {
+    setEditData((prevState) => {
+      return {
+        ...prevState,
+        [event.target.name]: event.target.value,
+      };
+    });
+  };
+  const [modalState, setModalState] = useState(false);
+  const [editIndex, setEditIndex] = useState(0);
+  const [editData, setEditData] = useState([]);
   const accordions = formData.map((item, index) => {
-
-    
     return (
       <Accordion.Panel key={index}>
         <Accordion.Title className="bg-white">
@@ -38,7 +34,7 @@ const AudioAccordion = ({ formData, handlePlay, handleDelete, handleEdit }) => {
         </Accordion.Title>
         <Accordion.Content>
           <div className="flex flex-row justify-between">
-            <div>
+            <div className="mr-10">
               <p className="mb-2 text-black dark:text-gray-400">
                 {item.comment}
               </p>
@@ -73,7 +69,13 @@ const AudioAccordion = ({ formData, handlePlay, handleDelete, handleEdit }) => {
 
               <div>
                 {/* edit button  */}
-                <Button outline={true} gradientDuoTone="cyanToBlue" onClick={()=>{editText(index)}}>
+                <Button
+                  outline={true}
+                  gradientDuoTone="cyanToBlue"
+                  onClick={() => {
+                    editText(index);
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -134,9 +136,16 @@ const AudioAccordion = ({ formData, handlePlay, handleDelete, handleEdit }) => {
                       </div>
                     </Modal.Body>
                     <Modal.Footer>
-                        {/* accept button  */}
-                      <Button onClick={()=>{handleEdit(editIndex,editData);closeModal()}}>Edit changes</Button>
-                        {/* close button  */}
+                      {/* accept button  */}
+                      <Button
+                        onClick={() => {
+                          handleEdit(editIndex, editData);
+                          closeModal();
+                        }}
+                      >
+                        Save changes
+                      </Button>
+                      {/* close button  */}
                       <Button color="gray" onClick={closeModal}>
                         Close
                       </Button>
