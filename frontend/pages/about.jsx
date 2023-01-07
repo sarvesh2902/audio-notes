@@ -31,6 +31,16 @@ const About = () => {
       linkedin: "https://www.linkedin.com/in/shreyansh-singh-40b4a422b/",
       instagram: "https://www.instagram.com/shreyansh0322/",
     },
+    // {
+    //   name: "Hrishikesh Kumbhar",
+    //   img: "https://avatars.githubusercontent.com/u/65307083?s=400&u=237f659d05e15248aee91189818084c78f6f3da0&v=4",
+    //   bio: "I am a full-stack developer with a strong background in the MERN stack . I have a passion for building intuitive and scalable web applications that deliver a seamless user experience.I am also an AI and machine learning enthusiast with a passion for using data-driven approaches to solve real-world problems. I have a strong background in mathematics and computer science, and have experience working with a variety of machine learning algorithms and tools.I am a strong believer in the power of teamwork and am always looking for opportunities to collaborate with others and learn new technologies.",
+    //   website: "",
+    //   twitter: "https://twitter.com/Hrishi_156",
+    //   github: "https://github.com/Hrishikesh156",
+    //   linkedin: "https://www.linkedin.com/in/hrishikesh-kumbhar-a86319206/",
+    //   instagram: "https://www.instagram.com/hrishikesh_kumbhar15/",
+    // },
   ];
 
   const cards = teamData.map((member) => {
