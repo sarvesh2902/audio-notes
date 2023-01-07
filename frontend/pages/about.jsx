@@ -1,27 +1,46 @@
 import React from "react";
-import Footer from "../components/Footer";
 import Layout from "../components/Layout";
-import Navbar from "../components/Navbar";
-import sarvesh from "../images/sarvesh.jpg";
 
 const About = () => {
   const teamData = [
     {
       name: "Sarvesh Patil",
       img: "https://res.cloudinary.com/sarveshp46/image/upload/v1670222333/ProfilePicturePhoto_sond99.jpg",
-      bio: "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur unde vitae reprehenderit provident facilis sequi, maxime minus tempore cupiditate veniam doloremque quis, suscipit beatae placeat? Magnam temporibus deserunt tempore consequatur!",
+      bio: "Software developer with a love for creating cutting-edge applications that boost organisational success's efficacy and efficiency. Well-versed in technology and able to write code to construct dependable and user-friendly solutions. Strong creative and analytical skills. Team player with an eye for detail.",
       website: "https://sarvesh2902.github.io/",
       twitter: "https://twitter.com/sarvesh_2902",
       github: "https://github.com/sarvesh2902",
       linkedin: "https://www.linkedin.com/in/sarvesh2902/",
       instagram: "https://www.instagram.com/patil__sarvesh/",
     },
+    {
+      name: "Atharva Bhoite",
+      img: "https://res.cloudinary.com/atharva7/image/upload/v1660658036/IPLab/profile_pic_cvxlrz.jpg",
+      bio: "A tech enthusiast having a firm grip on various programming languages like Java, Python, C and web development, libraries like ReactJS and NextJS. Experience of being an SE Technical Officer in a Non-profit Organization. Second-year student pursuing B.E ( Bachelor of Engineering) - Information Technology in Vivekanand Education Society's Institute of Technology, Mumbai.",
+      twitter: "https://twitter.com/atharvabhoite7",
+      github: "https://github.com/atharvabhoite7",
+      linkedin: "https://www.linkedin.com/in/atharva-bhoite-ba783a22b/",
+      instagram: "https://www.instagram.com/atharva_bhoite_7/",
+    },
+    {
+      name: "Shreyansh SIngh",
+      img: "https://avatars.githubusercontent.com/u/91277635?s=400&u=233fa0d27a84e891077eb6f171482c89aa264a73&v=4",
+      bio: "A tech enthusiast having a firm grip on various programming languages like Java, Python, C and web development, libraries like ReactJS and NextJS. Experience of being an SE Technical Officer in a Non-profit Organization. Second-year student pursuing B.E ( Bachelor of Engineering) - Information Technology in Vivekanand Education Society's Institute of Technology, Mumbai.",
+      twitter: "https://twitter.com/Shreyan80327061",
+      github: "https://github.com/SinghShreyansh",
+      linkedin: "https://www.linkedin.com/in/shreyansh-singh-40b4a422b/",
+      instagram: "https://www.instagram.com/shreyansh0322/",
+    },
   ];
 
   const cards = teamData.map((member) => {
     return (
-      <div class="max-w-sm rounded overflow-hidden shadow-lg mx-2 mb-4">
-        <img class="w-full" src={member.img} alt="Sunset in the mountains" />
+      <div class="max-w-sm rounded overflow-hidden shadow-lg mx-2 mb-10">
+        <img
+          class="w-full h-96"
+          src={member.img}
+          alt="Sunset in the mountains"
+        />
         <div class="px-6 py-4">
           <div class="font-bold text-xl mb-2">{member.name}</div>
           <p class="text-gray-700 text-base">{member.bio}</p>
@@ -82,12 +101,14 @@ const About = () => {
               <path d="M 8 3 C 5.243 3 3 5.243 3 8 L 3 16 C 3 18.757 5.243 21 8 21 L 16 21 C 18.757 21 21 18.757 21 16 L 21 8 C 21 5.243 18.757 3 16 3 L 8 3 z M 8 5 L 16 5 C 17.654 5 19 6.346 19 8 L 19 16 C 19 17.654 17.654 19 16 19 L 8 19 C 6.346 19 5 17.654 5 16 L 5 8 C 5 6.346 6.346 5 8 5 z M 17 6 A 1 1 0 0 0 16 7 A 1 1 0 0 0 17 8 A 1 1 0 0 0 18 7 A 1 1 0 0 0 17 6 z M 12 7 C 9.243 7 7 9.243 7 12 C 7 14.757 9.243 17 12 17 C 14.757 17 17 14.757 17 12 C 17 9.243 14.757 7 12 7 z M 12 9 C 13.654 9 15 10.346 15 12 C 15 13.654 13.654 15 12 15 C 10.346 15 9 13.654 9 12 C 9 10.346 10.346 9 12 9 z"></path>
             </svg>
           </a>
-          <a target="_blank" href={member.website} class="">
-            <img
-              src="https://img.icons8.com/ios/50/null/domain--v1.png"
-              width={28}
-            />
-          </a>
+          {member.website && (
+            <a target="_blank" href={member.website} class="">
+              <img
+                src="https://img.icons8.com/ios/50/null/domain--v1.png"
+                width={28}
+              />
+            </a>
+          )}
         </div>
       </div>
     );
