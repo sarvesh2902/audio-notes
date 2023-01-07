@@ -174,7 +174,7 @@ const project = () => {
         handleDelete={handleDelete}
         handleEdit={handleEdit}
       />
-      <ShareAudioHandles />
+      <ShareAudioHandles formData={formData} />
     </Layout>
   );
 };

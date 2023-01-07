@@ -3,6 +3,7 @@ import Layout from "../components/Layout";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import FileUploadProgress from "react-fileupload-progress";
 
 const projectPage = () => {
   const router = useRouter();
@@ -89,43 +90,70 @@ const projectPage = () => {
         <p className="text-center text-2xl font-bold mt-10">
           Upload Video or enter video URL
         </p>
-        <div className="grid grid-cols-2">
-          <div className="flex items-center overflow-hidden h-96">
-            <div className="m-auto px-6 sm:px-0 sm:w-8/12 md:w-7/12 lg:w-6/12 xl:w-4/12">
-              <div className="relative group w-full h-64 flex justify-center items-center">
-                <div className="absolute inset-0 w-full h-full rounded-xl bg-white bg-opacity-80 shadow-2xl backdrop-blur-xl group-hover:bg-opacity-70 group-hover:scale-110 transition duration-300"></div>
-                <input
-                  accept=".mp4"
-                  className="relative z-10 opacity-0 h-full w-full cursor-pointer"
-                  type="file"
-                  name="file"
-                  id="file"
-                  onChange={fileUpload}
-                  // required
-                />
-                <div className="absolute top-0 right-0 bottom-0 left-0 w-full h-full m-auo flex items-center justify-center">
-                  <div className="space-y-6 text-center">
-                    <img
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXMfnFzfURm7u65cptRathlu6PJj5Yx9hkxw&usqp=CAU"
-                      className="sm:w-40 w-32 m-auto"
-                      alt="illustration"
-                    />
-                    <p className="text-gray-700 text-lg">
-                      Drag and drop a file or{" "}
-                      <label
-                        htmlFor="file"
-                        title="Upload a file"
-                        className="relative z-20 cursor-pointer text-blue-500 hover:text-blue-600 block"
-                      >
-                        Upload a file
-                      </label>{" "}
-                    </p>
-                  </div>
+        <div className="flex items-center overflow-hidden h-96">
+          <div className="m-auto px-6 sm:px-0 sm:w-8/12 md:w-7/12 lg:w-6/12 xl:w-4/12">
+            <div className="relative group w-full h-64 flex justify-center items-center">
+              <div className="absolute inset-0 w-full h-full rounded-xl bg-white bg-opacity-80 shadow-2xl backdrop-blur-xl group-hover:bg-opacity-70 group-hover:scale-110 transition duration-300"></div>
+              <input
+                accept=".mp4"
+                className="relative z-10 opacity-0 h-full w-full cursor-pointer"
+                type="file"
+                name="file"
+                id="file"
+                onChange={fileUpload}
+                // required
+              />
+              <div className="absolute top-0 right-0 bottom-0 left-0 w-full h-full m-auo flex items-center justify-center">
+                <div className="space-y-6 text-center">
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXMfnFzfURm7u65cptRathlu6PJj5Yx9hkxw&usqp=CAU"
+                    className="sm:w-40 w-32 m-auto"
+                    alt="illustration"
+                  />
+                  <p className="text-gray-700 text-lg">
+                    Drag and drop a file or{" "}
+                    <label
+                      htmlFor="file"
+                      title="Upload a file"
+                      className="relative z-20 cursor-pointer text-blue-500 hover:text-blue-600 block"
+                    >
+                      Upload a file
+                    </label>{" "}
+                  </p>
                 </div>
               </div>
             </div>
           </div>
-          <div className="flex items-center">
+        </div>
+        <label
+          class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          for="file_input"
+        >
+          Upload file
+        </label>
+        <input
+          class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+          id="file_input"
+          type="file"
+        />
+
+        {/* <FileUploadProgress
+          key="ex1"
+          url="http://localhost:8787/convert_video"
+          onProgress={(e, request, progress) => {
+            console.log("progress", e, request, progress);
+          }}
+          onLoad={(e, request) => {
+            console.log("load", e, request);
+          }}
+          onError={(e, request) => {
+            console.log("error", e, request);
+          }}
+          onAbort={(e, request) => {
+            console.log("abort", e, request);
+          }}
+        /> */}
+        {/* <div className="flex items-center">
             <div className="w-96">
               <label
                 htmlFor="projectName"
@@ -144,8 +172,7 @@ const projectPage = () => {
                 // required
               />
             </div>
-          </div>
-        </div>
+          </div> */}
         <div className="flex justify-center">
           <button
             type="submit"
