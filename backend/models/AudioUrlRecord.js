@@ -9,7 +9,7 @@ const AudioUrlRecordSchema = new Schema({
         unique: true
     },
     record:[{
-      type: String
+      type: Object
     }],
     createdAt:{
          type: Date,

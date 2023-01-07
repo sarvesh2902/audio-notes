@@ -52,7 +52,7 @@ const projectPage = () => {
       .then(function (res) {
         console.log(res);
         if (res.data.type === "success") {
-          router.push(`/${formData.projectName}`);
+          router.push(`/${res.latestRecord.projectName}`);
           console.log("success");
         } else if (res.data === "No User Exists") {
           // navigate("/register");

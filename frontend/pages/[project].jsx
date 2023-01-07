@@ -162,8 +162,10 @@ const project = () => {
         </div>
       </div>
 
-      <div className="inline-flex justify-center items-center w-full mt-5">
-        <hr className="my-8 w-64 h-px bg-gray-900 border-0 dark:bg-gray-700" />
+      <ShareAudioHandles formData={formData} />
+
+      <div className="inline-flex justify-center items-center w-full mt-4">
+        <hr className="my-4 w-64 h-px bg-gray-900 border-0 dark:bg-gray-700" />
         <span className="absolute left-1/2 px-3 font-bold text-black text-2xl bg-white -translate-x-1/2 dark:text-white dark:bg-gray-900">
           NOTES
         </span>
@@ -174,7 +176,6 @@ const project = () => {
         handleDelete={handleDelete}
         handleEdit={handleEdit}
       />
-      <ShareAudioHandles formData={formData} />
     </Layout>
   );
 };

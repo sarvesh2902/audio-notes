@@ -42,14 +42,17 @@ exports.convertVideoToAudio = async (req, res) => {
 
       const recordPresent = await AudioUrlRecordSchema.findOne({ "email": req.body.email });
       if (recordPresent) {
-        recordPresent.record.push(fileName);
+        var newObj = { "projectName":req.body.projectName,
+                       "url": fileName}
+        recordPresent.record.push(newObj);
         const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate({ "email": req.body.email }, { "record": recordPresent.record, "updatedAt": Date.now() })
 
         if (updateRecord) {
 
           res.status(200).json({
             "type": "success",
-            "url": fileName,
+            "latestRecord":{ "projectName":req.body.projectName,
+            "url": fileName},
             "updatedRecord": recordPresent.record
           })
 
@@ -58,7 +61,8 @@ exports.convertVideoToAudio = async (req, res) => {
       } else {
         const newRecord = {
           "email": req.body.email,
-          "record": [fileName],
+          "record": [{ "projectName":req.body.projectName,
+          "url": fileName}],
           "updatedAt": Date.now()
         }
 
@@ -67,7 +71,8 @@ exports.convertVideoToAudio = async (req, res) => {
         if (newUrl) {
           res.status(200).json({
             "type": "success",
-            "url": fileName,
+            "latestRecord":{ "projectName":req.body.projectName,
+            "url": fileName},
             "updatedRecord": newUrl.record
           })
 

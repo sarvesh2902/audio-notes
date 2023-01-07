@@ -33,14 +33,17 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
       const recordPresent = await AudioUrlRecordSchema.findOne({ "email": req.body.email });
 
       if (recordPresent) {
-        recordPresent.record.push(fetchResponse.link);
+        var newObj = { "projectName":req.body.projectName,
+                       "url": fetchResponse.link}
+        recordPresent.record.push(newObj);
         const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate({ "email": req.body.email }, { "record": recordPresent.record, "updatedAt": Date.now() })
 
         if (updateRecord) {
 
           res.status(200).json({
             "type": "success",
-            "url": fetchResponse,
+            "latestRecord": { "projectName":req.body.projectName,
+            "url": fetchResponse.link  },
             "updatedRecord": recordPresent.record
           })
 
@@ -48,7 +51,8 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
       } else {
         const newRecord = {
           "email": req.body.email,
-          "record": [fetchResponse.link],
+          "record": [{ "projectName":req.body.projectName,
+          "url": fetchResponse.link  }],
           "updatedAt": Date.now()
         }
 
@@ -57,7 +61,8 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
         if (newUrl) {
           res.status(200).json({
             "type": "success",
-            "url": fetchResponse.link,
+            "latestRecord": { "projectName":req.body.projectName,
+                              "url": fetchResponse.link},
             "updatedRecord": newUrl.record
           })
         }
