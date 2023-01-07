@@ -2,6 +2,7 @@ const express = require("express")
 const fs = require("fs")
 const { exec } = require("child_process")
 const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
+const AudioTagSchema = require('../models/AudioTagSchema')
 
 
 
@@ -43,16 +44,24 @@ exports.convertVideoToAudio = async (req, res) => {
       const recordPresent = await AudioUrlRecordSchema.findOne({ "email": req.body.email });
       if (recordPresent) {
         var newObj = { "projectName":req.body.projectName,
-                       "url": fileName}
+                       "url": fileName,
+                       "createdDate":Date.now()}
         recordPresent.record.push(newObj);
         const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate({ "email": req.body.email }, { "record": recordPresent.record, "updatedAt": Date.now() })
 
         if (updateRecord) {
 
+          const addedDummyTag = await AudioTagSchema.create({"url":fileName,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
+
+          console.log(addedDummyTag)
+
+          if(addedDummyTag){
+              console.log("dummy tag added");
+          }
           res.status(200).json({
             "type": "success",
             "latestRecord":{ "projectName":req.body.projectName,
-            "url": fileName},
+            "url": fileName,"tags":[]},
             "updatedRecord": recordPresent.record
           })
 
@@ -62,13 +71,21 @@ exports.convertVideoToAudio = async (req, res) => {
         const newRecord = {
           "email": req.body.email,
           "record": [{ "projectName":req.body.projectName,
-          "url": fileName}],
+          "url": fileName,
+          "createdDate":Date.now()}],
           "updatedAt": Date.now()
         }
 
         const newUrl = await AudioUrlRecordSchema.create(newRecord);
 
         if (newUrl) {
+          const addedDummyTag = await AudioTagSchema.create({"url":fileName,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
+
+          console.log(addedDummyTag)
+          if(addedDummyTag){
+              console.log("dummy tag added");
+          }
+
           res.status(200).json({
             "type": "success",
             "latestRecord":{ "projectName":req.body.projectName,

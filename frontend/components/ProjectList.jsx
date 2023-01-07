@@ -12,6 +12,7 @@ const ProjectList = () => {
       duration: "54 mins",
       dataAdded: "24/02/2022",
       dateModified: "30/12/2022",
+      createdDate:"30/12/2022"
     }
   ])
 
@@ -46,8 +47,8 @@ const ProjectList = () => {
         >
           <Link href={item.url}>{item.projectName}</Link>
         </th>
-        {/* <td className="py-4 px-6">{item.duration}</td>
-        <td className="py-4 px-6">{item.dataAdded}</td>
+        <td className="py-4 px-6">{item.createdDate}</td>
+        {/* <td className="py-4 px-6">{item.dataAdded}</td>
         <td className="py-4 px-6">{item.dateModified}</td> */}
       </tr>
     );
@@ -62,14 +63,14 @@ const ProjectList = () => {
                 Project name
               </th>
               <th scope="col" className="py-3 px-6">
-                Duration
+              Created Date
               </th>
-              <th scope="col" className="py-3 px-6">
+              {/* <th scope="col" className="py-3 px-6">
                 Date added
               </th>
               <th scope="col" className="py-3 px-6">
                 Date modified
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>{tableRows}</tbody>

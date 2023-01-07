@@ -1,6 +1,7 @@
 const fetch = require("node-fetch");
 const request = require('request');
 const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
+const AudioTagSchema = require('../models/AudioTagSchema')
 
 
 
@@ -34,31 +35,46 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
 
       if (recordPresent) {
         var newObj = { "projectName":req.body.projectName,
-                       "url": fetchResponse.link}
+                       "url": fetchResponse.link,
+                       "createdDate":Date.now()}
         recordPresent.record.push(newObj);
         const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate({ "email": req.body.email }, { "record": recordPresent.record, "updatedAt": Date.now() })
 
         if (updateRecord) {
 
-          res.status(200).json({
-            "type": "success",
-            "latestRecord": { "projectName":req.body.projectName,
-            "url": fetchResponse.link  },
-            "updatedRecord": recordPresent.record
-          })
+          const addedDummyTag = await AudioTagSchema.create({"url":fetchResponse.link,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
+
+          if(addedDummyTag){
+              console.log("dummy tag added");
+              res.status(200).json({
+                "type": "success",
+                "latestRecord": { "projectName":req.body.projectName,
+                "url": fetchResponse.link  },
+                "updatedRecord": recordPresent.record
+              })
+          }
+
+
 
         }
       } else {
         const newRecord = {
           "email": req.body.email,
           "record": [{ "projectName":req.body.projectName,
-          "url": fetchResponse.link  }],
+          "url": fetchResponse.link,
+          "createdDate":Date.now()}],
           "updatedAt": Date.now()
         }
 
         const newUrl = await AudioUrlRecordSchema.create(newRecord);
 
         if (newUrl) {
+          const addedDummyTag = await AudioTagSchema.create({"url":fetchResponse.link,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
+
+          if(addedDummyTag){
+              console.log("dummy tag added");
+          }
+
           res.status(200).json({
             "type": "success",
             "latestRecord": { "projectName":req.body.projectName,

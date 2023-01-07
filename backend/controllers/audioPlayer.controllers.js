@@ -2,6 +2,7 @@ const AudioTagSchema = require('../models/AudioTagSchema');
 
 
 exports.provideAudioTags = async(req,res,next)=>{
+  console.log(req.body.url)
   if(req.body.url){
 
     const data = await AudioTagSchema.findOne({"url":req.body.url});
@@ -9,6 +10,7 @@ exports.provideAudioTags = async(req,res,next)=>{
     if(data){
         res.status(200).json({
           "type":"success",
+          "projectName":data.projectName,
           "tags":data.tags
         })
     }else{
@@ -25,6 +27,7 @@ exports.provideAudioTags = async(req,res,next)=>{
     })
   }
 }
+
 
 
 exports.addAudioTags = async(req,res,next)=>{

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import AudioAccordion from "../components/AudioAccordion";
@@ -8,11 +8,46 @@ import { useState, useRef } from "react";
 import ShareAudioHandles from "../components/ShareAudioHandles";
 import axios from "axios";
 import fileDownload from "js-file-download";
+import { useRouter } from 'next/router';
+
 // import 'tw-elements'
 // import "./project.scss"
 
 const project = () => {
   const audioRef = useRef(null);
+  const { asPath, pathname } = useRouter();
+  console.log(asPath); // '/blog/xyz'
+
+  const [respond,setRespond] = useState({});
+  const [projectName,setProjectName] = useState("")
+
+  useEffect(()=>{
+    console.log("hello")
+    if(asPath){
+      axios({
+        method: "post",
+        data:{
+          url: asPath.substring(1)
+        },
+        withCredentials: true,
+        url: "http://localhost:8787/audioplayer/provide-audio",
+      })
+        .then(function (res) {
+          console.log(res);
+          setRespond(res.data)
+          return;
+          router.push("/dashboard");
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+  },[asPath])
+
+  useEffect(()=>{
+    setProjectName(respond.projectName)
+  },[respond])
 
   const [formData, setFormData] = useState([
     {
@@ -56,7 +91,7 @@ const project = () => {
 
   const handleDownload = async (url, filename) => {
     await axios
-      .get(url, {
+      .get("http://localhost:8787/audio"+asPath, {
         responseType: "blob",
       })
       .then((res) => {
@@ -92,16 +127,16 @@ const project = () => {
     // console.log(copy[index]);
     setFormData(copy);
   };
-  return (
+  return ( asPath ?
     <Layout title="Project / Audio Notes">
       <h1 className="text-black flex font-bold justify-center text-2xl mt-5">
-        Project Name
+        {projectName ? projectName : "Project Name"}
       </h1>
       <div className="flex justify-center my-10">
         <div className="w-1/2">
           <AudioPlayer
             ref={audioRef}
-            src="https://res.cloudinary.com/sarveshp46/video/upload/v1672472551/Kalimba_ofzs7s.mp3"
+            src={"http://localhost:8787/audio"+asPath}
             defaultDuration=""
             // onPlay={e => console.log("onPlay")}
             // other props here
@@ -177,6 +212,7 @@ const project = () => {
         handleEdit={handleEdit}
       />
     </Layout>
+    : <div>loading...</div>
   );
 };
 
