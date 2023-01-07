@@ -25,7 +25,7 @@ const About = () => {
     {
       name: "Shreyansh SIngh",
       img: "https://avatars.githubusercontent.com/u/91277635?s=400&u=233fa0d27a84e891077eb6f171482c89aa264a73&v=4",
-      bio: "I like to solve problems by covering it all possibilities. At Mumbai, where I started my third year in the College of Engineering, I have learned the importance of applying classical strategies to modern-day projects .- Concentrations in Information Technology engineering provide a broad knowledge of engineering concepts.- Won in hackathons with my engineering team- Experience at Atto Infotech as a summer intern and Firsebooking.com as Front-end developer taught me how to apply development concepts to real word projects.",
+      bio: "At Mumbai, where I started my third year in the College of Engineering, I have learned the importance of applying classical strategies to modern-day projects .- Won in hackathons with my engineering team- Experience at Atto Infotech as a summer intern and Firsebooking.com as Front-end developer taught me how to apply development concepts to real word projects.",
       twitter: "https://twitter.com/Shreyan80327061",
       github: "https://github.com/SinghShreyansh",
       linkedin: "https://www.linkedin.com/in/shreyansh-singh-40b4a422b/",
