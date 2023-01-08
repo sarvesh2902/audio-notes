@@ -287,6 +287,7 @@ const project = () => {
             handlePlay={handlePlay}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            shared={true}
           />
         ) : (
           <div className="flex justify-center">
