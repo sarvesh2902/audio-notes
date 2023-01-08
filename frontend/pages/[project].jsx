@@ -19,19 +19,22 @@ import { useReducer } from "react";
 
 const project = () => {
   const router = useRouter();
-  // const [isOwner, setIsOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   const [userData, setUserData] = useState({
     email: "",
     name: "",
   });
 
-  // useEffect(() => {
-  //   console.log(isOwner);
-  // }, [isOwner]);
+  const [gotUserData,setGotUserData] = useState(false)
+
+  useEffect(() => {
+    console.log(isOwner);
+  }, [isOwner]);
 
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem("userData")));
+    setGotUserData(true)
   }, []);
 
   const audioRef = useRef(null);
@@ -60,12 +63,12 @@ const project = () => {
           setFormData(res.data.tags);
           console.log(res.data.email);
           console.log(userData.email);
-          // if (res.data.email == userData.email) {
-          //   setIsOwner(true);
-          //   console.log("owner");
-          // } else {
-          //   setIsOwner(false);
-          // }
+          if (res.data.email == userData.email) {
+            setIsOwner(true);
+            console.log("owner");
+          } else {
+            setIsOwner(false);
+          }
           return;
           router.push("/dashboard");
         })
@@ -73,7 +76,7 @@ const project = () => {
           console.log(error);
         });
     }
-  }, [asPath]);
+  }, [gotUserData,asPath]);
 
   useEffect(() => {
     setProjectName(respond.projectName);
@@ -249,7 +252,7 @@ const project = () => {
         <h1 className="text-black flex font-bold justify-center text-2xl mt-5">
           {projectName ? projectName : "Project Name"}
         </h1>
-        {true && (
+        {isOwner && (
           <div className="absolute -top-3 right-0 flex">
             <Button
               outline={true}
@@ -376,7 +379,7 @@ const project = () => {
               </svg>
             </Button>
           </div>
-          {true && (
+          {isOwner && (
             <div className="my-auto mx-2">
               <Button
                 outline={true}
@@ -427,7 +430,7 @@ const project = () => {
           </div>
         )}
 
-        {true && (
+        {isOwner && (
           <ShareAudioHandles
             formData={formData}
             respond={respond}
