@@ -28,65 +28,88 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
     if (fetchResponse.status === "ok") {
       console.log(fetchResponse);
 
-      const recordPresent = await AudioUrlRecordSchema.findOne({
-        email: req.body.email,
-      });
+      const newObject = {
+        "url":fetchResponse.link,
+        "email":req.body.email,
+        "projectName":req.body.projectName,
+        "tags":[],
+        "createdAt":Date.now(),
+        "updatedAt":Date.now()
+    }
 
-      if (recordPresent) {
-        var newObj = { "projectName":req.body.projectName,
-                       "url": fetchResponse.link,
-                       "createdDate":Date.now()}
-        recordPresent.record.push(newObj);
-        const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate(
-          { email: req.body.email },
-          { record: recordPresent.record, updatedAt: Date.now() }
-        );
+    const addNewProject = await AudioTagSchema.create(newObject);
 
-        if (updateRecord) {
+    if(addNewProject){
+      res.status(200).json({
+        "type":"success",
+        "msg":newObject
+      })
+    }else{
+      res.status(401).json({
+        "type":"failure",
+        "msg":"Data not added to Database ..."
+      })
+    }
 
-          const addedDummyTag = await AudioTagSchema.create({"url":fetchResponse.link,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
+      // const recordPresent = await AudioUrlRecordSchema.findOne({
+      //   email: req.body.email,
+      // });
 
-          if(addedDummyTag){
-              console.log("dummy tag added");
-              res.status(200).json({
-                "type": "success",
-                "latestRecord": { "projectName":req.body.projectName,
-                "url": fetchResponse.link  },
-                "updatedRecord": recordPresent.record
-              })
-          }
+      // if (recordPresent) {
+      //   var newObj = { "projectName":req.body.projectName,
+      //                  "url": fetchResponse.link,
+      //                  "createdDate":Date.now()}
+      //   recordPresent.record.push(newObj);
+      //   const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate(
+      //     { email: req.body.email },
+      //     { record: recordPresent.record, updatedAt: Date.now() }
+      //   );
+
+      //   if (updateRecord) {
+
+      //     const addedDummyTag = await AudioTagSchema.create({"url":fetchResponse.link,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
+
+      //     if(addedDummyTag){
+      //         console.log("dummy tag added");
+      //         res.status(200).json({
+      //           "type": "success",
+      //           "latestRecord": { "projectName":req.body.projectName,
+      //           "url": fetchResponse.link  },
+      //           "updatedRecord": recordPresent.record
+      //         })
+      //     }
 
 
 
-        }
-      } else {
-        const newRecord = {
-          "email": req.body.email,
-          "record": [{ "projectName":req.body.projectName,
-          "url": fetchResponse.link,
-          "createdDate":Date.now()}],
-          "updatedAt": Date.now()
-        }
+      //   }
+      // } else {
+      //   const newRecord = {
+      //     "email": req.body.email,
+      //     "record": [{ "projectName":req.body.projectName,
+      //     "url": fetchResponse.link,
+      //     "createdDate":Date.now()}],
+      //     "updatedAt": Date.now()
+      //   }
 
-        const newUrl = await AudioUrlRecordSchema.create(newRecord);
+      //   const newUrl = await AudioUrlRecordSchema.create(newRecord);
 
-        if (newUrl) {
-          const addedDummyTag = await AudioTagSchema.create({"url":fetchResponse.link,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
+      //   if (newUrl) {
+      //     const addedDummyTag = await AudioTagSchema.create({"url":fetchResponse.link,"projectName":req.body.projectName,"tags":[],"createdAt":Date.now(),"updatedAt":Date.now()});
 
-          if(addedDummyTag){
-              console.log("dummy tag added");
-          }
+      //     if(addedDummyTag){
+      //         console.log("dummy tag added");
+      //     }
 
-          res.status(200).json({
-            type: "success",
-            latestRecord: {
-              projectName: req.body.projectName,
-              url: fetchResponse.link,
-            },
-            updatedRecord: newUrl.record,
-          });
-        }
-      }
+      //     res.status(200).json({
+      //       type: "success",
+      //       latestRecord: {
+      //         projectName: req.body.projectName,
+      //         url: fetchResponse.link,
+      //       },
+      //       updatedRecord: newUrl.record,
+      //     });
+      //   }
+      // }
       // return res.render("index", { success: true, song_title: fetchResponse.title, song_link: fetchResponse.link })
     } else
       return res

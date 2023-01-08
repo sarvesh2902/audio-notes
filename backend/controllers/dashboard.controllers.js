@@ -1,13 +1,13 @@
-const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
+const AudioTagSchema = require('../models/AudioTagSchema')
 
 exports.provideUsersAllRecord = async(req,res,next)=>{
     if(req.body.email){
-        const data = await AudioUrlRecordSchema.findOne({"email":req.body.email});
+        const data = await AudioTagSchema.find({"email":req.body.email});
 
-        if(data){
+        if(data.length){
           res.status(200).json({
             "type":"success",
-            "message":data.record
+            "message":data
           })
         }else{
           res.status(401).json({
