@@ -86,13 +86,13 @@ const project = () => {
   };
 
   const handleDownload = async (url, filename) => {
-    // await axios
-    //   .get("http://localhost:8787/audio" + asPath, {
-    //     responseType: "blob",
-    //   })
-    //   .then((res) => {
-    //     fileDownload(res.data, filename);
-    //   });
+    await axios
+      .get("http://localhost:8787/audio" + asPath, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        fileDownload(res.data, filename);
+      });
   };
 
   const handlePlay = (timestamp) => {
