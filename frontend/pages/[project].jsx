@@ -332,9 +332,7 @@ const project = () => {
           <div className="w-1/2">
             <AudioPlayer
               ref={audioRef}
-              src={
-                 `http://localhost:8787/audio${asPath}`
-              }
+              src={`http://localhost:8787/audio${asPath}`}
               defaultDuration=""
               // onPlay={e => console.log("onPlay")}
               // other props here
@@ -370,29 +368,31 @@ const project = () => {
               </svg>
             </Button>
           </div>
-          <div className="my-auto mx-2">
-            <Button
-              outline={true}
-              gradientDuoTone="cyanToBlue"
-              onClick={handleAddNotes}
-            >
-              Add Notes
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-6 h-6 ml-2"
+          {isOwner && (
+            <div className="my-auto mx-2">
+              <Button
+                outline={true}
+                gradientDuoTone="cyanToBlue"
+                onClick={handleAddNotes}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M12 4.5v15m7.5-7.5h-15"
-                />
-              </svg>
-            </Button>
-          </div>
+                Add Notes
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  strokeWidth={1.5}
+                  stroke="currentColor"
+                  className="w-6 h-6 ml-2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M12 4.5v15m7.5-7.5h-15"
+                  />
+                </svg>
+              </Button>
+            </div>
+          )}
         </div>
 
         <div className="inline-flex justify-center items-center w-full mt-10">
@@ -407,6 +407,7 @@ const project = () => {
             handlePlay={handlePlay}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
+            isOwner={isOwner}
           />
         ) : (
           <div className="flex justify-center">
@@ -418,11 +419,13 @@ const project = () => {
           </div>
         )}
 
-        <ShareAudioHandles
-          formData={formData}
-          respond={respond}
-          url={asPath.substring(1)}
-        />
+        {isOwner && (
+          <ShareAudioHandles
+            formData={formData}
+            respond={respond}
+            url={asPath.substring(1)}
+          />
+        )}
       </div>
     </Layout>
   ) : (
