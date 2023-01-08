@@ -10,24 +10,31 @@ import axios from "axios";
 import fileDownload from "js-file-download";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import Router from "next/router";
+import Link from "next/link";
+import { useReducer } from "react";
 
 // import 'tw-elements'
 // import "./project.scss"
 
 const project = () => {
-  const [isOwner, setIsOwner] = useState(false);
+  const router = useRouter();
+  // const [isOwner, setIsOwner] = useState(false);
 
   const [userData, setUserData] = useState({
     email: "",
     name: "",
   });
 
+  // useEffect(() => {
+  //   console.log(isOwner);
+  // }, [isOwner]);
+
   useEffect(() => {
     setUserData(JSON.parse(localStorage.getItem("userData")));
   }, []);
 
   const audioRef = useRef(null);
-  const router = useRouter();
   const { asPath, pathname } = useRouter();
   console.log(asPath); // '/blog/xyz'
 
@@ -53,11 +60,12 @@ const project = () => {
           setFormData(res.data.tags);
           console.log(res.data.email);
           console.log(userData.email);
-          if (res.data.email == userData.email) {
-            setIsOwner(true);
-          } else {
-            setIsOwner(false);
-          }
+          // if (res.data.email == userData.email) {
+          //   setIsOwner(true);
+          //   console.log("owner");
+          // } else {
+          //   setIsOwner(false);
+          // }
           return;
           router.push("/dashboard");
         })
@@ -235,13 +243,13 @@ const project = () => {
       });
   };
 
-  return asPath ? (
+  return userData ? (
     <Layout title="Project / Audio Notes">
       <div className="relative">
         <h1 className="text-black flex font-bold justify-center text-2xl mt-5">
           {projectName ? projectName : "Project Name"}
         </h1>
-        {isOwner && (
+        {true && (
           <div className="absolute -top-3 right-0 flex">
             <Button
               outline={true}
@@ -368,7 +376,7 @@ const project = () => {
               </svg>
             </Button>
           </div>
-          {isOwner && (
+          {true && (
             <div className="my-auto mx-2">
               <Button
                 outline={true}
@@ -407,7 +415,7 @@ const project = () => {
             handlePlay={handlePlay}
             handleDelete={handleDelete}
             handleEdit={handleEdit}
-            isOwner={isOwner}
+            isOwner={true}
           />
         ) : (
           <div className="flex justify-center">
@@ -419,7 +427,7 @@ const project = () => {
           </div>
         )}
 
-        {isOwner && (
+        {true && (
           <ShareAudioHandles
             formData={formData}
             respond={respond}
@@ -429,7 +437,7 @@ const project = () => {
       </div>
     </Layout>
   ) : (
-    <div>loading...</div>
+    <Link href="/login">Please login to continue</Link>
   );
 };
 
