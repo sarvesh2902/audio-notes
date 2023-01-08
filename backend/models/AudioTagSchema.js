@@ -15,6 +15,9 @@ const AudioTagSchema = new Schema({
     tags:[{
       type: Object
     }],
+    duration:{
+      type: String
+    },
     createdAt:{
          type: Date,
          default: Date.now

@@ -1,7 +1,9 @@
 const fetch = require("node-fetch");
 const request = require('request');
-const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
+// const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
 const AudioTagSchema = require('../models/AudioTagSchema')
+const { getVideoDurationInSeconds } = require('get-video-duration')
+
 
 
 
@@ -24,6 +26,8 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
     );
 
     const fetchResponse = await fetchAPI.json();
+    const duration = await getVideoDurationInSeconds(req.file.path);
+
 
     if (fetchResponse.status === "ok") {
       console.log(fetchResponse);
@@ -34,7 +38,8 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
         "projectName":req.body.projectName,
         "tags":[],
         "createdAt":Date.now(),
-        "updatedAt":Date.now()
+        "updatedAt":Date.now(),
+        "duration": duration
     }
 
     const addNewProject = await AudioTagSchema.create(newObject);
