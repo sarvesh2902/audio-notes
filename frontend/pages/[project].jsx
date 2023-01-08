@@ -224,7 +224,11 @@ const project = () => {
         </div>
       </div>
 
-      <ShareAudioHandles formData={formData} />
+      <ShareAudioHandles
+        formData={formData}
+        respond={respond}
+        url={asPath.substring(1)}
+      />
 
       <div className="inline-flex justify-center items-center w-full mt-4">
         <hr className="my-4 w-64 h-px bg-gray-900 border-0 dark:bg-gray-700" />

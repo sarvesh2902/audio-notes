@@ -39,9 +39,9 @@ const ProjectList = () => {
         >
           <Link href={item.url}>{item.projectName}</Link>
         </th>
-        <td className="py-4 px-6">{item.createdDate}</td>
-        {/* <td className="py-4 px-6">{item.dataAdded}</td>
-        <td className="py-4 px-6">{item.dateModified}</td> */}
+        <td className="py-4 px-6">{item.duration}</td>
+        <td className="py-4 px-6">{item.createdAt.substring(0, 10)}</td>
+        <td className="py-4 px-6">{item.updatedAt.substring(0, 10)}</td>
       </tr>
     );
   });
@@ -56,14 +56,14 @@ const ProjectList = () => {
                   Project name
                 </th>
                 <th scope="col" className="py-3 px-6">
+                  Duration
+                </th>
+                <th scope="col" className="py-3 px-6">
                   Created Date
                 </th>
-                {/* <th scope="col" className="py-3 px-6">
-                Date added
-              </th>
-              <th scope="col" className="py-3 px-6">
-                Date modified
-              </th> */}
+                <th scope="col" className="py-3 px-6">
+                  Date modified
+                </th>
               </tr>
             </thead>
             <tbody>{tableRows}</tbody>
