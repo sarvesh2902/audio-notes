@@ -133,7 +133,7 @@ const projectPage = () => {
           <div className="w-96">
             <input
               className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              accept=".mp4"
+              accept=".mp4,.mkv,.avi,.mov,.wmv,.webm"
               type="file"
               name="file"
               id="file"
@@ -141,7 +141,7 @@ const projectPage = () => {
               required
             />
             <div
-              class="bg-white border-t-4 mt-3 border-primary-200 rounded-b text-teal-900 px-4 py-3 shadow-md"
+              class="bg-white border-t-4 mt-5 border-primary-200 rounded-b text-teal-900 px-4 py-3 shadow-md"
               role="alert"
             >
               <div class="flex items-center">
@@ -155,10 +155,10 @@ const projectPage = () => {
                   </svg>
                 </div>
                 <div>
-                  <p class="font-bold">Compatible Video File - mp4</p>
-                  {/* <p class="text-sm">
-                    Make sure you know how these changes affect you.
-                  </p> */}
+                  <p class="font-bold">All video file formats are compatible</p>
+                  <p class="text-sm">
+                    Recommended - mp4, mkv, mov, webm, wmv, avi
+                  </p>
                 </div>
               </div>
             </div>

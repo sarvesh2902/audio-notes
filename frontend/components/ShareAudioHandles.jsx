@@ -15,7 +15,7 @@ const ShareAudioHandles = ({ formData, respond, url }) => {
   const newUrl = `http://localhost:8787/audio/${url}`;
   return (
     <div className="my-6">
-      <h1 className="flex justify-center font-medium ">
+      <h1 className="flex justify-center font-medium text-lg">
         Share audio notes and timestamps summary via:{" "}
       </h1>
       <div className="flex flex-row justify-center mt-2">

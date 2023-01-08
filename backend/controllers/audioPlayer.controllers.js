@@ -58,6 +58,69 @@ exports.crudAudioTags = async (req, res, next) => {
   }
 };
 
+exports.deleteProject = async (req, res, next) => {
+  const data = await AudioTagSchema.findOne({ url: req.body.url });
+  if (data) {
+    // const timeStamp = req.body.timestamp;
+    // const Tag = req.body.tag;
+    // let newTag = {};
+    // newTag[timeStamp] = Tag;
+    // data.tags.push(newTag)
+
+    const updatedData = await AudioTagSchema.findOneAndRemove({
+      url: req.body.url,
+    });
+
+    if (updatedData) {
+      res.status(200).json({
+        type: "success",
+      });
+    } else {
+      res.status(401).json({
+        type: "failure",
+        updatedTag: "Tag not updated ...",
+      });
+    }
+  } else {
+    res.status(401).json({
+      type: "failure",
+      msg: "No Data found for provided url ...",
+    });
+  }
+};
+
+exports.editProject = async (req, res, next) => {
+  const data = await AudioTagSchema.findOne({ url: req.body.url });
+  if (data) {
+    // const timeStamp = req.body.timestamp;
+    // const Tag = req.body.tag;
+    // let newTag = {};
+    // newTag[timeStamp] = Tag;
+    // data.tags.push(newTag)
+
+    const updatedData = await AudioTagSchema.findOneAndUpdate(
+      { url: req.body.url },
+      { projectName: req.body.projectName }
+    );
+
+    if (updatedData) {
+      res.status(200).json({
+        type: "success",
+      });
+    } else {
+      res.status(401).json({
+        type: "failure",
+        updatedTag: "Tag not updated ...",
+      });
+    }
+  } else {
+    res.status(401).json({
+      type: "failure",
+      msg: "No Data found for provided url ...",
+    });
+  }
+};
+
 // exports.editAudioTags = async(req,res,next)=>{
 //     const data = await AudioTagSchema.findOne({"url":req.body.url})
 //     if(data){
