@@ -21,14 +21,16 @@ const project = () => {
 
   const [respond, setRespond] = useState({});
   const [projectName, setProjectName] = useState("");
+  const [filename, setFilename] = useState("");
 
   useEffect(() => {
     console.log("hello");
+    setFilename(localStorage.getItem("filename"));
     if (asPath) {
       axios({
         method: "post",
         data: {
-          url: asPath.substring(1),
+          url: filename,
         },
         withCredentials: true,
         url: "http://localhost:8787/audioplayer/provide-audio",
@@ -72,7 +74,7 @@ const project = () => {
       method: "post",
       data: {
         tags: copy,
-        url: asPath.substring(1),
+        url: filename,
       },
       withCredentials: true,
       url: "http://localhost:8787/audioplayer/crud-audiotag",
@@ -85,14 +87,14 @@ const project = () => {
       });
   };
 
-  const handleDownload = async (url, filename) => {
-    // await axios
-    //   .get("http://localhost:8787/audio" + asPath, {
-    //     responseType: "blob",
-    //   })
-    //   .then((res) => {
-    //     fileDownload(res.data, filename);
-    //   });
+  const handleDownload = async (url, filename2) => {
+    await axios
+      .get("http://localhost:8787/audio/" + filename, {
+        responseType: "blob",
+      })
+      .then((res) => {
+        fileDownload(res.data, filename2);
+      });
   };
 
   const handlePlay = (timestamp) => {
@@ -117,7 +119,7 @@ const project = () => {
       method: "post",
       data: {
         tags: copy,
-        url: asPath.substring(1),
+        url: filename,
       },
       withCredentials: true,
       url: "http://localhost:8787/audioplayer/crud-audiotag",
@@ -143,7 +145,7 @@ const project = () => {
       method: "post",
       data: {
         tags: copy,
-        url: asPath.substring(1),
+        url: filename,
       },
       withCredentials: true,
       url: "http://localhost:8787/audioplayer/crud-audiotag",
@@ -155,7 +157,7 @@ const project = () => {
         console.log(error);
       });
   };
-  return asPath ? (
+  return filename ? (
     <Layout title="Project / Audio Notes">
       <h1 className="text-black flex font-bold justify-center text-2xl mt-5">
         {projectName ? projectName : "Project Name"}
@@ -164,7 +166,11 @@ const project = () => {
         <div className="w-1/2">
           <AudioPlayer
             ref={audioRef}
-            src={"http://localhost:8787/audio" + asPath}
+            src={
+              filename.substring(0, 4) == "https"
+                ? filename
+                : `http://localhost:8787/audio/${filename}`
+            }
             defaultDuration=""
             // onPlay={e => console.log("onPlay")}
             // other props here
@@ -225,11 +231,7 @@ const project = () => {
         </div>
       </div>
 
-      <ShareAudioHandles
-        formData={formData}
-        respond={respond}
-        url={asPath.substring(1)}
-      />
+      <ShareAudioHandles formData={formData} respond={respond} url={filename} />
 
       <div className="inline-flex justify-center items-center w-full mt-4">
         <hr className="my-4 w-64 h-px bg-gray-900 border-0 dark:bg-gray-700" />

@@ -3,8 +3,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Image from "next/image";
 import { Button } from "flowbite-react";
+import { useRouter } from "next/router";
 
 const ProjectList = () => {
+  const router = useRouter();
   const [records, setRecords] = useState([]);
 
   const handleDelete = () => {
@@ -32,6 +34,12 @@ const ProjectList = () => {
       });
   }, []);
 
+  const handleClick = (url, projectName) => {
+    console.log("clicked");
+    localStorage.setItem("filename", url);
+    router.push(`/${projectName}`);
+  };
+
   const tableRows = records.map((item) => {
     return (
       <tr
@@ -42,7 +50,14 @@ const ProjectList = () => {
           scope="row"
           className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-black"
         >
-          <Link href={item.url}>{item.projectName}</Link>
+          {/* <Link href={item.projectName}>{item.projectName}</Link> */}
+          <button
+            onClick={() => {
+              handleClick(item.url, item.projectName);
+            }}
+          >
+            {item.projectName}
+          </button>
         </th>
         <td className="py-4 px-6">{`${item.duration.min} : ${item.duration.sec}`}</td>
         <td className="py-4 px-6">{item.createdAt.substring(0, 10)}</td>
