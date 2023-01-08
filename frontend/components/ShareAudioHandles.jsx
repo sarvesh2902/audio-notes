@@ -12,7 +12,7 @@ import {
 
 const ShareAudioHandles = ({ formData, respond, url }) => {
   console.log(url);
-  const newUrl = `http://localhost:3000/${url}`;
+  const newUrl = `http://localhost:3000/shared/${url}`;
   return (
     <div className="my-6">
       <h1 className="flex justify-center font-medium text-lg">
