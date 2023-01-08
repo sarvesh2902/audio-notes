@@ -1,76 +1,75 @@
-const express = require("express")
-const fs = require("fs")
-const { exec } = require("child_process")
+const express = require("express");
+const fs = require("fs");
+const { exec } = require("child_process");
 // const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
-const AudioTagSchema = require('../models/AudioTagSchema')
-const { getVideoDurationInSeconds } = require('get-video-duration')
-
-
-
-
+const AudioTagSchema = require("../models/AudioTagSchema");
+const { getVideoDurationInSeconds } = require("get-video-duration");
 
 // single("file") => "file" came from name attribute of the html input form
 exports.convertVideoToAudio = async (req, res) => {
   if (req.file) {
     console.log(req.file.path);
-    const dirName = "public/audio/"
-    const fileName = Date.now() + "-" + "convertedAudio.mp3"
+    const dirName = "public/audio/";
+    const fileName = Date.now() + "-" + "convertedAudio.mp3";
     const output = dirName + fileName;
     // From a local path...
     const duration = await getVideoDurationInSeconds(req.file.path);
 
-    console.log(duration)
+    console.log(duration);
 
-    const { spawn } = require('child_process');
+    const { spawn } = require("child_process");
 
-    const ffmpeg = spawn('ffmpeg', [
-      '-i',
+    const ffmpeg = spawn("ffmpeg", [
+      "-i",
       req.file.path,
-      '-vn',
-      '-acodec',
-      'libmp3lame',
-      '-ac',
-      '2',
-      '-ab',
-      '192k',
-      '-ar',
-      '44100',
-      output
+      "-vn",
+      "-acodec",
+      "libmp3lame",
+      "-ac",
+      "2",
+      "-ab",
+      "192k",
+      "-ar",
+      "44100",
+      output,
     ]);
 
-    ffmpeg.on('exit', async function (code) {
+    ffmpeg.on("exit", async function (code) {
       if (code == 1) {
         res.status(401).json({
-          "type":"failure",
-          "msg":"Provided video is not proper, its causing some error..."
-        })
+          type: "failure",
+          msg: "Provided video is not proper, its causing some error...",
+        });
       }
-      console.log('conversion complete with code: ' + code);
+      console.log("conversion complete with code: " + code);
 
       const newObject = {
-          "url":fileName,
-          "email":req.body.email,
-          "projectName":req.body.projectName,
-          "tags":[],
-          "createdAt":Date.now(),
-          "updatedAt":Date.now(),
-          "duration": duration
-      }
+        url: fileName,
+        email: req.body.email,
+        projectName: req.body.projectName,
+        tags: [],
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        duration: {
+          min: Math.floor(duration / 60),
+          sec: Math.floor(duration % 60),
+        },
+      };
 
       const addNewProject = await AudioTagSchema.create(newObject);
 
-      if(addNewProject){
+      if (addNewProject) {
         res.status(200).json({
-          "type":"success",
-          "msg":newObject
-        })
-        fs.unlinkSync(req.file.path)
-      }else{
+          type: "success",
+          msg: newObject,
+        });
+        fs.unlinkSync(req.file.path);
+      } else {
         res.status(401).json({
-          "type":"failure",
-          "msg":"Data not added to Database ..."
-        })
-        fs.unlinkSync(req.file.path)
+          type: "failure",
+          msg: "Data not added to Database ...",
+        });
+        fs.unlinkSync(req.file.path);
       }
 
       // const recordPresent = await AudioTagSchema.find({ "email": req.body.email });
@@ -135,61 +134,56 @@ exports.convertVideoToAudio = async (req, res) => {
       //         fs.unlinkSync(req.file.path)
       //     }
       // })
-    // });
+      // });
 
+      // exec(`ffmpeg -i ${req.file.path} ${output}`, async(error, stdout, stderr) => {
+      //     if (error) {
+      //         console.log(`Convert Error: ${error}`);
+      //         return
+      //     } else {
+      //         console.log("File is converted");
+      //         const recordPresent = await AudioUrlRecordSchema.findOne({"email":req.body.email});
+      //         if(recordPresent){
+      //           recordPresent.record.push(fileName);
+      //           const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate({"email":req.body.email},{"record": recordPresent.record,"updatedAt":Date.now()})
 
-    // exec(`ffmpeg -i ${req.file.path} ${output}`, async(error, stdout, stderr) => {
-    //     if (error) {
-    //         console.log(`Convert Error: ${error}`);
-    //         return
-    //     } else {
-    //         console.log("File is converted");
-    //         const recordPresent = await AudioUrlRecordSchema.findOne({"email":req.body.email});
-    //         if(recordPresent){
-    //           recordPresent.record.push(fileName);
-    //           const updateRecord = await AudioUrlRecordSchema.findOneAndUpdate({"email":req.body.email},{"record": recordPresent.record,"updatedAt":Date.now()})
+      //           if(updateRecord){
 
-    //           if(updateRecord){
+      //             res.status(200).json({
+      //               "type":"success",
+      //               "url":fileName,
+      //               "updatedRecord": recordPresent.record
+      //             })
 
-    //             res.status(200).json({
-    //               "type":"success",
-    //               "url":fileName,
-    //               "updatedRecord": recordPresent.record
-    //             })
+      //             fs.unlinkSync(req.file.path)
+      //           }
+      //         }else{
+      //           const newRecord = {
+      //             "email":req.body.email,
+      //             "record":[fileName],
+      //             "updatedAt": Date.now()
+      //           }
 
-    //             fs.unlinkSync(req.file.path)
-    //           }
-    //         }else{
-    //           const newRecord = {
-    //             "email":req.body.email,
-    //             "record":[fileName],
-    //             "updatedAt": Date.now()
-    //           }
+      //           const newUrl = await AudioUrlRecordSchema.create(newRecord);
 
-    //           const newUrl = await AudioUrlRecordSchema.create(newRecord);
+      //           if(newUrl){
+      //             res.status(200).json({
+      //               "type":"success",
+      //               "url":fileName,
+      //               "updatedRecord": newUrl.record
+      //             })
 
-    //           if(newUrl){
-    //             res.status(200).json({
-    //               "type":"success",
-    //               "url":fileName,
-    //               "updatedRecord": newUrl.record
-    //             })
-
-    //             fs.unlinkSync(req.file.path)
-    //           }
-    //         }
-    //         // res.download(output, (error) => {
-    //         //     if (error) {
-    //         //         throw error
-    //         //     } else {
-    //         //         fs.unlinkSync(req.file.path)
-    //         //     }
-    //         // })
-    //     }
-    })
+      //             fs.unlinkSync(req.file.path)
+      //           }
+      //         }
+      //         // res.download(output, (error) => {
+      //         //     if (error) {
+      //         //         throw error
+      //         //     } else {
+      //         //         fs.unlinkSync(req.file.path)
+      //         //     }
+      //         // })
+      //     }
+    });
   }
-}
-
-
-
-
+};

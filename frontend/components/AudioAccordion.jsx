@@ -95,7 +95,7 @@ const AudioAccordion = ({ formData, handlePlay, handleDelete, handleEdit }) => {
                 {/* modal  */}
                 <React.Fragment>
                   <Modal show={modalState} onClose={closeModal}>
-                    <Modal.Header>Terms of Service</Modal.Header>
+                    <Modal.Header>Edit Comment</Modal.Header>
                     <Modal.Body>
                       <div className="space-y-6">
                         <div>

@@ -45,13 +45,16 @@ const newYoutube = () => {
     })
       .then(function (res) {
         console.log(res);
-        if (res.data.type === "success") {
-          router.push(`/${formData.projectName}`);
-          console.log("success");
-          setIsLoading(false);
-        } else {
-          console.log("not found");
-        }
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000);
+        // if (res.data.type === "success") {
+        //   router.push(`/${formData.projectName}`);
+        //   console.log("success");
+        //   setIsLoading(false);
+        // } else {
+        //   console.log("not found");
+        // }
       })
       .catch(function (error) {
         console.log(error);

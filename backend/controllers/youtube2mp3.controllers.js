@@ -1,11 +1,8 @@
 const fetch = require("node-fetch");
-const request = require('request');
+const request = require("request");
 // const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
-const AudioTagSchema = require('../models/AudioTagSchema')
-const { getVideoDurationInSeconds } = require('get-video-duration')
-
-
-
+const AudioTagSchema = require("../models/AudioTagSchema");
+const { getVideoDurationInSeconds } = require("get-video-duration");
 
 exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
   const videoId = req.body.videoId;
@@ -26,35 +23,37 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
     );
 
     const fetchResponse = await fetchAPI.json();
-    const duration = await getVideoDurationInSeconds(req.file.path);
-
+    // const duration = await getVideoDurationInSeconds(req.file.path);
 
     if (fetchResponse.status === "ok") {
       console.log(fetchResponse);
 
       const newObject = {
-        "url":fetchResponse.link,
-        "email":req.body.email,
-        "projectName":req.body.projectName,
-        "tags":[],
-        "createdAt":Date.now(),
-        "updatedAt":Date.now(),
-        "duration": duration
-    }
+        url: fetchResponse.link,
+        email: req.body.email,
+        projectName: req.body.projectName,
+        tags: [],
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
+        duration: {
+          min: Math.floor(fetchResponse.duration / 60),
+          sec: Math.floor(fetchResponse.duration % 60),
+        },
+      };
 
-    const addNewProject = await AudioTagSchema.create(newObject);
+      const addNewProject = await AudioTagSchema.create(newObject);
 
-    if(addNewProject){
-      res.status(200).json({
-        "type":"success",
-        "msg":newObject
-      })
-    }else{
-      res.status(401).json({
-        "type":"failure",
-        "msg":"Data not added to Database ..."
-      })
-    }
+      if (addNewProject) {
+        res.status(200).json({
+          type: "success",
+          msg: newObject,
+        });
+      } else {
+        res.status(401).json({
+          type: "failure",
+          msg: "Data not added to Database ...",
+        });
+      }
 
       // const recordPresent = await AudioUrlRecordSchema.findOne({
       //   email: req.body.email,
@@ -83,8 +82,6 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
       //           "updatedRecord": recordPresent.record
       //         })
       //     }
-
-
 
       //   }
       // } else {

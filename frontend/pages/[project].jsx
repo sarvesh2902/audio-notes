@@ -9,6 +9,7 @@ import ShareAudioHandles from "../components/ShareAudioHandles";
 import axios from "axios";
 import fileDownload from "js-file-download";
 import { useRouter } from "next/router";
+import Image from "next/image";
 
 // import 'tw-elements'
 // import "./project.scss"
@@ -85,13 +86,13 @@ const project = () => {
   };
 
   const handleDownload = async (url, filename) => {
-    await axios
-      .get("http://localhost:8787/audio" + asPath, {
-        responseType: "blob",
-      })
-      .then((res) => {
-        fileDownload(res.data, filename);
-      });
+    // await axios
+    //   .get("http://localhost:8787/audio" + asPath, {
+    //     responseType: "blob",
+    //   })
+    //   .then((res) => {
+    //     fileDownload(res.data, filename);
+    //   });
   };
 
   const handlePlay = (timestamp) => {
@@ -236,12 +237,22 @@ const project = () => {
           NOTES
         </span>
       </div>
-      <AudioAccordion
-        formData={formData}
-        handlePlay={handlePlay}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-      />
+      {formData.length ? (
+        <AudioAccordion
+          formData={formData}
+          handlePlay={handlePlay}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
+      ) : (
+        <div className="flex justify-center">
+          <Image
+            src="https://res.cloudinary.com/sarveshp46/image/upload/v1673158646/nothing-here_w38mzj.webp"
+            width={300}
+            height={300}
+          />
+        </div>
+      )}
     </Layout>
   ) : (
     <div>loading...</div>
