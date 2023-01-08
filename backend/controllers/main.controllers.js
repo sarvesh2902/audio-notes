@@ -3,6 +3,8 @@ const fs = require("fs")
 const { exec } = require("child_process")
 // const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
 const AudioTagSchema = require('../models/AudioTagSchema')
+const { getVideoDurationInSeconds } = require('get-video-duration')
+
 
 
 
@@ -14,6 +16,10 @@ exports.convertVideoToAudio = async (req, res) => {
     const dirName = "public/audio/"
     const fileName = Date.now() + "-" + "convertedAudio.mp3"
     const output = dirName + fileName;
+    // From a local path...
+    const duration = await getVideoDurationInSeconds(req.file.path);
+
+    console.log(duration)
 
     const { spawn } = require('child_process');
 
@@ -47,7 +53,8 @@ exports.convertVideoToAudio = async (req, res) => {
           "projectName":req.body.projectName,
           "tags":[],
           "createdAt":Date.now(),
-          "updatedAt":Date.now()
+          "updatedAt":Date.now(),
+          "duration": duration
       }
 
       const addNewProject = await AudioTagSchema.create(newObject);
