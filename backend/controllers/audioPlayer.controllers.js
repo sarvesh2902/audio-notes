@@ -10,6 +10,7 @@ exports.provideAudioTags = async (req, res, next) => {
         type: "success",
         projectName: data.projectName,
         tags: data.tags,
+        email: data.email,
       });
     } else {
       res.status(401).json({
