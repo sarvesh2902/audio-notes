@@ -11,7 +11,7 @@ exports.convertVideoToAudio = async (req, res) => {
     console.log(req.file.path);
 
     // converting to video to .mp4
-    var convertedFileName = "public/audio/"+Date.now()+"-convertedVideo.mp4"
+    var convertedFileName = "public/uploads/"+Date.now()+"-convertedVideo.mp4"
     exec(`ffmpeg -i ${req.file.path} -c:v libx264 ${convertedFileName}`, async(error, stdout, stderr) => {
       if (error) {
           console.log(`Convert Error: ${error}`);

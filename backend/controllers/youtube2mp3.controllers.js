@@ -3,6 +3,8 @@ const request = require("request");
 // const AudioUrlRecordSchema = require('../models/AudioUrlRecord')
 const AudioTagSchema = require("../models/AudioTagSchema");
 const { getVideoDurationInSeconds } = require("get-video-duration");
+const fs = require("fs");
+
 
 exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
   const videoId = req.body.videoId;
@@ -28,8 +30,22 @@ exports.convertYoutubeIDtoMp3Link = async (req, res, next) => {
     if (fetchResponse.status === "ok") {
       console.log(fetchResponse);
 
+      const fetchVideo = await fetch(
+        `${fetchResponse.link}`,
+        {
+          method: "GET",
+        }
+      );
+
+      const fileName = Date.now()+"-youtubeVideo.mp3"
+      const writeStream = fs.createWriteStream(`public/audio/${fileName}`);
+
+      fetchVideo.body.pipe(writeStream);
+
+
+
       const newObject = {
-        url: fetchResponse.link,
+        url: fileName,
         email: req.body.email,
         projectName: req.body.projectName,
         tags: [],
