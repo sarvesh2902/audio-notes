@@ -10,9 +10,9 @@ const ProjectList = () => {
       duration: "54 mins",
       dataAdded: "24/02/2022",
       dateModified: "30/12/2022",
-      createdDate:"30/12/2022"
-    }
-  ])
+      createdDate: "30/12/2022",
+    },
+  ]);
 
   useEffect(() => {
     const userEmail = JSON.parse(localStorage.getItem("userData")).email;
@@ -26,7 +26,7 @@ const ProjectList = () => {
     })
       .then(function (res) {
         console.log(res.data.message);
-        // setRecords(res.data.message);
+        setRecords(res.data.message);
         return;
         router.push("/dashboard");
       })
@@ -63,7 +63,7 @@ const ProjectList = () => {
                 Project name
               </th>
               <th scope="col" className="py-3 px-6">
-              Created Date
+                Created Date
               </th>
               {/* <th scope="col" className="py-3 px-6">
                 Date added

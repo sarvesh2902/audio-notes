@@ -8,7 +8,7 @@ import { useState, useRef } from "react";
 import ShareAudioHandles from "../components/ShareAudioHandles";
 import axios from "axios";
 import fileDownload from "js-file-download";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
 
 // import 'tw-elements'
 // import "./project.scss"
@@ -18,23 +18,24 @@ const project = () => {
   const { asPath, pathname } = useRouter();
   console.log(asPath); // '/blog/xyz'
 
-  const [respond,setRespond] = useState({});
-  const [projectName,setProjectName] = useState("")
+  const [respond, setRespond] = useState({});
+  const [projectName, setProjectName] = useState("");
 
-  useEffect(()=>{
-    console.log("hello")
-    if(asPath){
+  useEffect(() => {
+    console.log("hello");
+    if (asPath) {
       axios({
         method: "post",
-        data:{
-          url: asPath.substring(1)
+        data: {
+          url: asPath.substring(1),
         },
         withCredentials: true,
         url: "http://localhost:8787/audioplayer/provide-audio",
       })
         .then(function (res) {
           console.log(res);
-          setRespond(res.data)
+          setRespond(res.data);
+          setFormData(res.data.tags);
           return;
           router.push("/dashboard");
         })
@@ -42,37 +43,15 @@ const project = () => {
           console.log(error);
         });
     }
+  }, [asPath]);
 
-  },[asPath])
+  useEffect(() => {
+    setProjectName(respond.projectName);
+  }, [respond]);
 
-  useEffect(()=>{
-    setProjectName(respond.projectName)
-  },[respond])
+  const [formData, setFormData] = useState([]);
 
-  const [formData, setFormData] = useState([
-    {
-      name: "Name 1",
-      comment: "Comment 1",
-      timestamp: "5:10",
-    },
-    {
-      name: "Name 2",
-      comment: "Comment 2",
-      timestamp: "0:1",
-    },
-    {
-      name: "Name 3",
-      comment: "Comment 3",
-      timestamp: "3:34",
-    },
-    {
-      name: "Name 4",
-      comment: "Comment 4",
-      timestamp: "2:56",
-    },
-  ]);
-
-  const handleAddNotes = () => {
+  const handleAddNotes = async () => {
     audioRef.current.audio.current.pause();
     const timestamp = {
       min: Math.floor(audioRef.current.audio.current.currentTime / 60),
@@ -87,11 +66,27 @@ const project = () => {
     });
 
     setFormData(copy);
+
+    await axios({
+      method: "post",
+      data: {
+        tags: copy,
+        url: asPath.substring(1),
+      },
+      withCredentials: true,
+      url: "http://localhost:8787/audioplayer/crud-audiotag",
+    })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   const handleDownload = async (url, filename) => {
     await axios
-      .get("http://localhost:8787/audio"+asPath, {
+      .get("http://localhost:8787/audio" + asPath, {
         responseType: "blob",
       })
       .then((res) => {
@@ -111,23 +106,55 @@ const project = () => {
     audioRef.current.audio.current.play();
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = async (index) => {
     console.log(index);
     let copy = formData.slice();
     copy.splice(index, 1);
     setFormData(copy);
+
+    await axios({
+      method: "post",
+      data: {
+        tags: copy,
+        url: asPath.substring(1),
+      },
+      withCredentials: true,
+      url: "http://localhost:8787/audioplayer/crud-audiotag",
+    })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   // edit function
-  const handleEdit = (index, editData) => {
+  const handleEdit = async (index, editData) => {
     // console.log(index);
     let copy = formData.slice();
     copy[index].name = editData.name;
     copy[index].comment = editData.comment;
     // console.log(copy[index]);
     setFormData(copy);
+
+    await axios({
+      method: "post",
+      data: {
+        tags: copy,
+        url: asPath.substring(1),
+      },
+      withCredentials: true,
+      url: "http://localhost:8787/audioplayer/crud-audiotag",
+    })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
-  return ( asPath ?
+  return asPath ? (
     <Layout title="Project / Audio Notes">
       <h1 className="text-black flex font-bold justify-center text-2xl mt-5">
         {projectName ? projectName : "Project Name"}
@@ -136,7 +163,7 @@ const project = () => {
         <div className="w-1/2">
           <AudioPlayer
             ref={audioRef}
-            src={"http://localhost:8787/audio"+asPath}
+            src={"http://localhost:8787/audio" + asPath}
             defaultDuration=""
             // onPlay={e => console.log("onPlay")}
             // other props here
@@ -212,7 +239,8 @@ const project = () => {
         handleEdit={handleEdit}
       />
     </Layout>
-    : <div>loading...</div>
+  ) : (
+    <div>loading...</div>
   );
 };
 
