@@ -5,7 +5,15 @@ const { convertVideoToAudio } = require("../controllers/main.controllers");
 const fs = require("fs")
 const path = require('path');
 
+// const convertToMP4andUpload = async(req,file,res,next)=>{
+//     console.log(file);
+//     console.log(req.body);
+//     return;
 
+    // const dirName = "public/audio/";
+    // const fileName = Date.now() + "-" + "convertedAudio.mp3";
+    // const output = dirName + fileName;
+// }
 
 const dir = "public"
 const subDir = "public/uploads"
