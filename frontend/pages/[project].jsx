@@ -27,11 +27,11 @@ const project = () => {
   useEffect(() => {
     console.log("hello");
     setFilename(localStorage.getItem("filename"));
-    if (filename) {
+    if (asPath) {
       axios({
         method: "post",
         data: {
-          url: filename,
+          url: asPath.substring(1),
         },
         withCredentials: true,
         url: "http://localhost:8787/audioplayer/provide-audio",
@@ -47,7 +47,7 @@ const project = () => {
           console.log(error);
         });
     }
-  }, [filename]);
+  }, [asPath]);
 
   useEffect(() => {
     setProjectName(respond.projectName);
@@ -75,7 +75,7 @@ const project = () => {
       method: "post",
       data: {
         tags: copy,
-        url: filename,
+        url: asPath.substring(1),
       },
       withCredentials: true,
       url: "http://localhost:8787/audioplayer/crud-audiotag",
@@ -88,13 +88,13 @@ const project = () => {
       });
   };
 
-  const handleDownload = async (url, filename2) => {
+  const handleDownload = async (url, filename) => {
     await axios
-      .get("http://localhost:8787/audio/" + filename, {
+      .get("http://localhost:8787/audio" + asPath, {
         responseType: "blob",
       })
       .then((res) => {
-        fileDownload(res.data, filename2);
+        fileDownload(res.data, filename);
       });
   };
 
@@ -120,7 +120,7 @@ const project = () => {
       method: "post",
       data: {
         tags: copy,
-        url: filename,
+        url: asPath.substring(1),
       },
       withCredentials: true,
       url: "http://localhost:8787/audioplayer/crud-audiotag",
@@ -146,7 +146,7 @@ const project = () => {
       method: "post",
       data: {
         tags: copy,
-        url: filename,
+        url: asPath.substring(1),
       },
       withCredentials: true,
       url: "http://localhost:8787/audioplayer/crud-audiotag",
@@ -166,7 +166,7 @@ const project = () => {
     await axios({
       method: "post",
       data: {
-        url: filename,
+        url: asPath.substring(1),
       },
       withCredentials: true,
       url: "http://localhost:8787/audioplayer/delete-project",
@@ -195,14 +195,14 @@ const project = () => {
 
   const handleEditProject = async () => {
     console.log("edit project");
-    console.log(filename);
+    console.log(asPath.substring(1));
     setModalState(true);
     console.log(projectName);
 
     await axios({
       method: "post",
       data: {
-        url: filename,
+        url: asPath.substring(1),
         projectName: projectName,
       },
       withCredentials: true,
@@ -210,14 +210,14 @@ const project = () => {
     })
       .then(function (res) {
         console.log(res);
-        router.push(`/${projectName}`);
+        // router.push(`/${asPath.substring(1)}`);
       })
       .catch(function (error) {
         console.log(error);
       });
   };
 
-  return filename ? (
+  return asPath ? (
     <Layout title="Project / Audio Notes">
       <div className="relative">
         <h1 className="text-black flex font-bold justify-center text-2xl mt-5">
@@ -313,9 +313,7 @@ const project = () => {
             <AudioPlayer
               ref={audioRef}
               src={
-                filename.substring(0, 4) == "https"
-                  ? filename
-                  : `http://localhost:8787/audio/${filename}`
+                 `http://localhost:8787/audio${asPath}`
               }
               defaultDuration=""
               // onPlay={e => console.log("onPlay")}
@@ -403,7 +401,7 @@ const project = () => {
         <ShareAudioHandles
           formData={formData}
           respond={respond}
-          url={filename}
+          url={asPath.substring(1)}
         />
       </div>
     </Layout>

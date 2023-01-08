@@ -50,14 +50,14 @@ const ProjectList = () => {
           scope="row"
           className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-black"
         >
-          {/* <Link href={item.projectName}>{item.projectName}</Link> */}
-          <button
+          <Link href={item.url}>{item.projectName}</Link>
+          {/* <button
             onClick={() => {
               handleClick(item.url, item.projectName);
             }}
           >
             {item.projectName}
-          </button>
+          </button> */}
         </th>
         <td className="py-4 px-6">{`${item.duration.min} : ${item.duration.sec}`}</td>
         <td className="py-4 px-6">{item.createdAt.substring(0, 10)}</td>
