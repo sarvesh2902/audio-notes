@@ -4,9 +4,10 @@ const Schema = mongoose.Schema;
 
 const AudioTagSchema = new Schema({
     url:{
-        type: String,
-        required: true,
-        unique: true
+        type: String
+    },
+    email:{
+        type: String
     },
     projectName:{
         type:String
