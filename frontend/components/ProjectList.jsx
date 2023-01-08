@@ -1,18 +1,10 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 
 const ProjectList = () => {
-  const [records, setRecords] = useState([
-    {
-      projectName: "project1",
-      url: "1673086140643-convertedAudio.mp3",
-      duration: "54 mins",
-      dataAdded: "24/02/2022",
-      dateModified: "30/12/2022",
-      createdDate: "30/12/2022",
-    },
-  ]);
+  const [records, setRecords] = useState([]);
 
   useEffect(() => {
     const userEmail = JSON.parse(localStorage.getItem("userData")).email;
@@ -55,27 +47,37 @@ const ProjectList = () => {
   });
   return (
     <div>
-      <div className="overflow-x-auto relative shadow-md sm:rounded-lg mx-20 my-3">
-        <table className="w-full text-sm text-left text-black dark:text-gray-400">
-          <thead className="text-xs text-white dark:border-gray-400 uppercase bg-primary-200 dark:bg-gray-200 dark:text-black">
-            <tr>
-              <th scope="col" className="py-3 px-6">
-                Project name
-              </th>
-              <th scope="col" className="py-3 px-6">
-                Created Date
-              </th>
-              {/* <th scope="col" className="py-3 px-6">
+      {records.length ? (
+        <div className="overflow-x-auto relative shadow-md sm:rounded-lg mx-20 my-3">
+          <table className="w-full text-sm text-left text-black dark:text-gray-400">
+            <thead className="text-xs text-white dark:border-gray-400 uppercase bg-primary-200 dark:bg-gray-200 dark:text-black">
+              <tr>
+                <th scope="col" className="py-3 px-6">
+                  Project name
+                </th>
+                <th scope="col" className="py-3 px-6">
+                  Created Date
+                </th>
+                {/* <th scope="col" className="py-3 px-6">
                 Date added
               </th>
               <th scope="col" className="py-3 px-6">
                 Date modified
               </th> */}
-            </tr>
-          </thead>
-          <tbody>{tableRows}</tbody>
-        </table>
-      </div>
+              </tr>
+            </thead>
+            <tbody>{tableRows}</tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="flex justify-center">
+          <Image
+            src="https://res.cloudinary.com/sarveshp46/image/upload/v1673151583/no_projects_yet_fngawa.webp"
+            width={300}
+            height={300}
+          />
+        </div>
+      )}
     </div>
   );
 };
