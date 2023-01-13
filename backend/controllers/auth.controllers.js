@@ -100,8 +100,8 @@ exports.generateOtp = async(req,res,next)=>{
       port: 587,
       secure: false,
       auth: {
-        user: 'singhssingh152@gmail.com',
-        pass: 'chxdxdhlfqzzhhev'
+        user: 'your_email@gmail.com',
+        pass: '16_letter_password'
       }
     });
     const mailOptions = {
